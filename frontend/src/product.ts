@@ -37,7 +37,7 @@ export const products: IProducts[] = [
     brand: "Sony",
     category: "Electronics",
     countInStock: 12,
-    rating: 4.5,
+    rating: 5,
     numReviews: 9,
   },
   {
@@ -50,7 +50,7 @@ export const products: IProducts[] = [
     brand: "Canon",
     category: "Electronics",
     countInStock: 4,
-    rating: 4.4,
+    rating: 3.5,
     numReviews: 4,
   },
   {
