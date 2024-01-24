@@ -1,0 +1,9 @@
+.list-group-item,
+h3 {
+  color: grey;
+}
+
+.list-group-item:last-child {
+  justify-content: center;
+  display: flex;
+}
