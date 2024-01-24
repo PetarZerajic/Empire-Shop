@@ -1,9 +1,11 @@
 import { Card } from "react-bootstrap";
-import { IProducts } from "../models/IProducts";
+import { IProducts } from "../../interfaces/IProducts";
 import { Link } from "react-router-dom";
+import "./product.css";
 
 export const Product = (props: { product: IProducts }) => {
   const { product } = props;
+
   return (
     <Card className="my-3 p-3 rounded">
       <Link to={`/product/${product._id}`}>

@@ -1,0 +1,7 @@
+a {
+  text-decoration: none;
+}
+.card-title,
+.card-text {
+  color: grey;
+}
