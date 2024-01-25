@@ -1,8 +1,10 @@
 import express from "express";
 import "dotenv/config.js";
 import { products } from "./data/products";
+import { connectToDb } from "../config/db";
 
 const app = express();
+connectToDb();
 
 const port = process.env.PORT || 5000;
 app.get("/", (req, res) => {
