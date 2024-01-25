@@ -5,7 +5,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import App from "../App";
-import { HomeScreen } from "../screens/HomeScreen";
+import { HomeScreen } from "../screens/HomeScreen/HomeScreen";
 import { ProductScreen } from "../screens/ProductScreen/ProductScreen";
 import { Routes } from "./Routes";
 
