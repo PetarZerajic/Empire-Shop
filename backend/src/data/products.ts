@@ -2,9 +2,8 @@ import { IProducts } from "../interfaces/IProducts";
 
 export const products: IProducts[] = [
   {
-    _id: 1,
     name: "AirPods 2nd generation",
-    image: "airpods.jpeg",
+    imageCover: "airpods.jpeg",
     price: 129.0,
     description:
       "With plenty of talk and listen time, voice-activated Siri access, and an available wireless charging case, AirPods deliver an incredible wireless headphone experience. Simply take them out and they’re ready to use with all your devices.",
@@ -15,9 +14,8 @@ export const products: IProducts[] = [
     numReviews: 12,
   },
   {
-    _id: 2,
     name: "Iphone 15 Pro Max 512GB",
-    image: "iphon15-pro-max.jpg",
+    imageCover: "iphon15-pro-max.jpg",
     price: 1199,
     description:
       "The iPhone 15 Pro Max comes with 6.7-inch OLED display with 120Hz refresh rate and Apple's improved A17 Pro processor. On the back there is a Triple camera setup with 48MP",
@@ -28,9 +26,8 @@ export const products: IProducts[] = [
     numReviews: 8,
   },
   {
-    _id: 3,
     name: "Playstation 5",
-    image: "ps5.jpg",
+    imageCover: "ps5.jpg",
     price: 500,
     description:
       "Experience lightning-fast loading with an ultra-high speed SSD, deeper immersion with support for haptic feedback1, adaptive triggers and 3D Audio, and an all-new generation of incredible PlayStation games.",
@@ -41,9 +38,8 @@ export const products: IProducts[] = [
     numReviews: 9,
   },
   {
-    _id: 4,
     name: "Canon EOS R3",
-    image: "canon-Eos-R3.jpeg",
+    imageCover: "canon-Eos-R3.jpeg",
     price: 4999,
     description:
       "The Canon EOS R3 is the first of a new camera class, slotted between the extreme professional 1-series and the high-performance 5-series. Featuring high reliability, durability, and exceptional speed, the R3 is designed to meet professional requirements with an emphasis on outstanding results when photographing challenging and fast-moving subjects.",
@@ -54,9 +50,8 @@ export const products: IProducts[] = [
     numReviews: 4,
   },
   {
-    _id: 5,
     name: "Fanatec GT DD Pro",
-    image: "fanatec-GTDD-Pro.jpg",
+    imageCover: "fanatec-GTDD-Pro.jpg",
     price: 700,
     description:
       "The Fanatec GT DD Pro sets a high standard for all racing wheels. A direct-drive motor can throw the wheel around with so much force you're holding on for dear life.You feel every bump or loss of traction with the GT DD",
@@ -67,9 +62,8 @@ export const products: IProducts[] = [
     numReviews: 7,
   },
   {
-    _id: 6,
     name: "Samsung S24 Ultra",
-    image: "samsung-24-ultra.png",
+    imageCover: "samsung-24-ultra.png",
     price: 1300,
     description:
       "Welcome to the era of mobile AI. With Galaxy S24 Ultra in your hands, you can unleash whole new levels of creativity, productivity and possibility — starting with the most important device in your life. Your smartphone.",
@@ -80,9 +74,8 @@ export const products: IProducts[] = [
     numReviews: 10,
   },
   {
-    _id: 7,
     name: "LENOVO IdeaPad 5 Pro ",
-    image: "lenovo-ideapad-5-pro.jpg",
+    imageCover: "lenovo-ideapad-5-pro.jpg",
     price: 1400,
     description:
       "Meet the IdeaPad 5 Pro Gen 6 (16 inch AMD) laptop—perfect for streaming and entertainment, with amazing visuals on its QHD display.Marvel at the high performance of its powerful AMD Ryzen™ processor, as well as the fully immersive 3D audio of Dolby Atmos®.",
@@ -93,9 +86,8 @@ export const products: IProducts[] = [
     numReviews: 8,
   },
   {
-    _id: 8,
     name: "GeForce RTX 4090 ",
-    image: "rtx-4090.png",
+    imageCover: "rtx-4090.png",
     price: 2000,
     description:
       "The NVIDIA® GeForce RTX™ 4090 is the ultimate GeForce GPU. It brings an enormous leap in performance, efficiency, and AI-powered graphics. Experience ultra-high performance gaming, incredibly detailed virtual worlds,",
@@ -106,9 +98,8 @@ export const products: IProducts[] = [
     numReviews: 10,
   },
   {
-    _id: 9,
     name: "Amazon Fire TV Stick with Alexa",
-    image: "amazon.jpeg",
+    imageCover: "amazon.jpeg",
     price: 40,
     description:
       "50% more powerful than the previous generation for fast streaming in Full HD. Includes Alexa Voice Remote with power and volume buttons.Stream more than 1.5 million movies and TV episodes from Netflix, Prime Video, Disney+, Peacock, and more, plus listen to millions of songs. Subscription fees may apply.",
@@ -120,12 +111,11 @@ export const products: IProducts[] = [
   },
 
   {
-    _id: 10,
     name: "LG G3 Series 65 inch OLED evo 4k",
-    image: "lg-G3.jpg",
+    imageCover: "lg-G3.jpg",
     price: 2300,
     description:
-      "LG OLED EVO: The LG OLED evo G-Series comes loaded with the a9 AI Processor Gen6—made exclusively for LG OLED—for even better picture and performance. Brightness Booster Max adjusts the picture for up to 70% brighter images",
+      "LG OLED EVO: The LG OLED evo G-Series comes loaded with the a9 AI Processor Gen6—made exclusively for LG OLED—for even better picture and performance. Brightness Booster Max adjusts the picture for up to 70% brighter coverImages",
     brand: "LG",
     category: "Electronics",
     countInStock: 15,
@@ -133,9 +123,8 @@ export const products: IProducts[] = [
     numReviews: 7,
   },
   {
-    _id: 11,
     name: "Logitech MX Master 3s ",
-    image: "logitech-MX-Master-3s.jpg",
+    imageCover: "logitech-MX-Master-3s.jpg",
     price: 100,
     description:
       "MX Master 3S for Mac is outfitted with our most accurate sensor for next-gen precision and responsiveness.Work on large resolution monitors with a pixel-precise 8,000 DPI optical sensor that tracks virtually anywhere even on glass",
@@ -146,9 +135,8 @@ export const products: IProducts[] = [
     numReviews: 4,
   },
   {
-    _id: 12,
     name: "Apple MacBook Pro M3 16-in",
-    image: "apple-macbook-pro-m3.jpeg",
+    imageCover: "apple-macbook-pro-m3.jpeg",
     price: 3500,
     description:
       "14-core CPU with 10 performance cores and 4 efficiency cores 30-core GPU Hardware-accelerated ray tracing 16-core Neural Engine 300GB/s memory bandwidth",
