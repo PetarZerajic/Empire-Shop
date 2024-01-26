@@ -1,7 +1,7 @@
 export interface IProducts {
-  _id: number;
+  _id?: number;
   name: string;
-  image: string;
+  imageCover: string;
   price: number;
   description: string;
   brand: string;
