@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Peter Hamilton",
+    "email": "admin@empireshop.com",
+    "role": "admin",
+    "active": true,
+    "photo": "user-1.jpg",
+    "password": "$2b$10$lBaCp1quoJZ.6UPt7W/Sd.oW5HZni54Xl0jafjXCMuh1wlEa2bVSm"
+  },
+  {
+    "name": "Monica Li",
+    "email": "monica@example.com",
+    "role": "user",
+    "active": true,
+    "photo": "user-2.jpg",
+    "password": "$2b$10$NU4hVuG4.2tjfcsu1JEUH.bvizkYdkWT9LZTRZoTF.OVNeWGxPqSS"
+  },
+  {
+    "name": "Sophie Louise ",
+    "email": "sophie@example.com",
+    "role": "user",
+    "active": true,
+    "photo": "user-3.jpg",
+    "password": "$2b$10$y73F9uhcrOnxGQeKumql.u8EHunf9vtgKN8faK1nJ2.cRI1C6i5tq"
+  },
+  {
+    "name": "Ayla Cornell",
+    "email": "ayls@example.com",
+    "role": "user",
+    "active": true,
+    "photo": "user-4.jpg",
+    "password": "$2b$10$h4YfgY9rd0KX5sz1axGQwOhnbinDjlujrfTeOZJ2JflfLFtf4vHWG"
+  },
+  {
+    "name": "Leo Gillespie",
+    "email": "leo@example.com",
+    "role": "user",
+    "active": true,
+    "photo": "user-5.jpg",
+    "password": "$2b$10$UMHihibumYWbycBqWQd06.tTb1q3IJWq6kbxAu0.agfMkJFuvyfoq"
+  },
+  {
+    "name": "Jennifer Hardy",
+    "email": "jennifer@example.com",
+    "role": "user",
+    "active": true,
+    "photo": "user-6.jpg",
+    "password": "$2b$10$oHOtq0QdrUpC6QlLeqUsDOujYV3MaAAPl3oGYl2RPaQyNiaur74Bi"
+  },
+  {
+    "name": "Kate Morrison",
+    "email": "kate@example.com",
+    "role": "user",
+    "active": true,
+    "photo": "user-7.jpg",
+    "password": "$2b$10$sfQRH1aEbWCPFWJZOalS5uCcpS.0z4lWXUHMMrUfWgFv0wD.3HBVm"
+  },
+  {
+    "name": "Eliana Stout",
+    "email": "eliana@example.com",
+    "role": "user",
+    "active": true,
+    "photo": "user-8.jpg",
+    "password": "$2b$10$q.wjrtxLIPeSFQr/32XT8OC2Rx7W10.jPX25.DDYds/Pxp8ZxHIdm"
+  },
+  {
+    "name": "Cristian Vega",
+    "email": "chris@example.com",
+    "role": "user",
+    "active": true,
+    "photo": "user-9.jpg",
+    "password": "$2b$10$Q1OPT2zpJDhDrZYsrOaaYOBgf9TzR1ti9OfQkaCeJSdjDgO2fKaFG"
+  },
+  {
+    "name": "Steve Shelton",
+    "email": "steve@example.com",
+    "role": "user",
+    "active": true,
+    "photo": "user-10.jpg",
+    "password": "$2b$10$x4/qFZD99/8RyGfF93Mt7.ihOQ/9g7u7YlhHJ6fQQZb/FbIQcIvKm"
+  }
+]
