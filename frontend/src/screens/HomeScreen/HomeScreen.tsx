@@ -10,11 +10,10 @@ export const HomeScreen = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await axios.get("/api/products");
-      setProducts(response.data);
+      setProducts(response.data.data);
     };
     fetchProducts();
   }, []);
-
   return (
     <>
       <h1 style={{ color: "grey" }}>Latest Products</h1>
