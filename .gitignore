@@ -23,3 +23,16 @@ dist-ssr
 *.sw?
 .env
 
+frontend/public/images/airpods.jpeg
+frontend/public/images/amazon.jpeg
+frontend/public/images/apple-macbook-pro-m3.jpeg
+.gitignore
+frontend/public/images/fanatec-GTDD-Pro.jpg
+frontend/public/images/iphon15-pro-max.jpg
+frontend/public/images/lenovo-ideapad-5-pro.jpg
+frontend/public/images/lg-G3.jpg
+.gitignore
+frontend/public/images/ps5.jpg
+.gitignore
+frontend/public/images/samsung-24-ultra.png
+frontend/public/images/canon-Eos-R3.jpeg
