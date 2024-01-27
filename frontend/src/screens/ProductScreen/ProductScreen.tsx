@@ -11,11 +11,10 @@ import "./productScreen.css";
 export const ProductScreen = () => {
   const { id } = useParams();
   const [product, setPorduct] = useState<IProducts>();
-
   useEffect(() => {
     const fetchProduct = async () => {
       const response = await axios.get(`/api/product/${id}`);
-      setPorduct(response.data);
+      setPorduct(response.data.data);
     };
     fetchProduct();
   }, []);
@@ -28,7 +27,11 @@ export const ProductScreen = () => {
         </Link>
         <Row>
           <Col md={5}>
-            <Image src={`/images/${product.image}`} alt={product.name} fluid />
+            <Image
+              src={`/images/products/${product.imageCover}`}
+              alt={product.name}
+              fluid
+            />
           </Col>
           <Col md={4}>
             <ListGroup variant="flush">
