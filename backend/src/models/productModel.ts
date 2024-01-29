@@ -50,5 +50,6 @@ const productSchema = new mongoose.Schema({
     select: false,
   },
 });
+type Product = InferSchemaType<typeof productSchema>;
 
-export const Prouduct = mongoose.model("Product", productSchema);
+export const Product = mongoose.model<Product>("Product", productSchema);
