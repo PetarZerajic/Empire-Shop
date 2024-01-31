@@ -1,0 +1,20 @@
+.col-md-4 .list-group-item,
+h3 {
+  color: grey;
+}
+
+.list-group-item:last-child {
+  justify-content: center;
+  display: flex;
+}
+.col-md-3 .card {
+  margin-top: 50px;
+}
+.col-md-3 .card .list-group-item {
+  color: gray;
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .col-md-3 .card {
+    min-width: 180px;
+  }
+}
