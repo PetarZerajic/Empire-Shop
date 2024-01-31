@@ -13,7 +13,7 @@ export const ProductScreen = () => {
   const [product, setPorduct] = useState<IProducts>();
   useEffect(() => {
     const fetchProduct = async () => {
-      const response = await axios.get(`/api/product/${id}`);
+      const response = await axios.get(`/api/products/${id}`);
       setPorduct(response.data.data);
     };
     fetchProduct();
