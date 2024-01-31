@@ -1,8 +1,21 @@
 .navbar {
   background-color: #606060;
 }
+.navbar-brand div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
 .navbar-brand img {
-  width: 50px;
-  height: 50px;
-  object-fit: contain;
+  width: 20px;
+  height: 20px;
+}
+
+@media screen and (max-width: 767px) {
+  .ms-auto .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
 }
