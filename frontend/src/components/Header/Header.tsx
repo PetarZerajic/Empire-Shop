@@ -3,6 +3,7 @@ import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
 import logo from "../../assets/logo.png";
 import "./header.css";
+
 export const Header = () => {
   return (
     <header>
@@ -10,8 +11,10 @@ export const Header = () => {
         <Container>
           <LinkContainer to="/">
             <Navbar.Brand>
-              <img src={logo} />
-              Empire-Shop
+              <div>
+                <img src={logo} />
+                Empire-Shop
+              </div>
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
