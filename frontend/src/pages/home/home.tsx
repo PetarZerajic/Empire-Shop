@@ -3,17 +3,25 @@ import { useGetProductsQuery } from "../../redux/slices/productsApiSlice";
 import { ProductCard } from "../../components/card/productCard";
 import { IProducts } from "../../interfaces/IProducts";
 import { Loader } from "../../components/loader/loader";
+import { Message } from "../../components/message/message";
 export const Home = () => {
   const {
     data: products,
     isLoading,
-    isError,
+    error,
     isSuccess,
   } = useGetProductsQuery("Product");
+
+  let errMessage = "";
+  if (error) {
+    if ("status" in error) {
+      errMessage = "data" in error ? JSON.stringify(error.data) : error.error;
+    }
+  }
   return (
     <>
       {isLoading && <Loader />}
-      {isError && <h2>Something has gone wrong</h2>}
+      {error && <Message variant="danger">{errMessage}</Message>}
 
       <h1 style={{ color: "grey" }}>Latest Products</h1>
       <Row>
