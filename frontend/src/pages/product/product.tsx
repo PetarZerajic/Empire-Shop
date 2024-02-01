@@ -1,7 +1,7 @@
 import { Row, Col, Card, Button, Image, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { Rating } from "../../components/rating/Rating";
+import { Rating } from "../../components/rating/rating";
 import { Routes } from "../../router/routes";
 import { useGetOneProductQuery } from "../../redux/slices/productsApiSlice";
 import "./product.css";

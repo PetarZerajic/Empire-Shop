@@ -1,7 +1,7 @@
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { IProducts } from "../../interfaces/IProducts";
-import { Rating } from "../rating/Rating";
+import { Rating } from "../rating/rating";
 import "./productCard.css";
 
 export const ProductCard = (props: { product: IProducts }) => {
