@@ -8,19 +8,16 @@ import "./product.css";
 
 export const Product = () => {
   const { id } = useParams();
-  const { data, isLoading, isError } = useGetOneProductQuery(id);
+  const { data, isError } = useGetOneProductQuery(id);
 
   const product = data?.data;
-
   if (product)
     return (
       <>
         <Link to={Routes.HOME} className="btn btn-light my-3">
           Go back
         </Link>
-        {isLoading && <h2>...Loading</h2>}
         {isError && <h2>Something has gone wrong</h2>}
-
         <Row>
           <Col md={5}>
             <Image
