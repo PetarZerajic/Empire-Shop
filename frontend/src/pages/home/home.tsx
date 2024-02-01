@@ -2,7 +2,7 @@ import { Row, Col } from "react-bootstrap";
 import { useGetProductsQuery } from "../../redux/slices/productsApiSlice";
 import { ProductCard } from "../../components/card/productCard";
 import { IProducts } from "../../interfaces/IProducts";
-
+import { Loader } from "../../components/loader/loader";
 export const Home = () => {
   const {
     data: products,
@@ -12,7 +12,7 @@ export const Home = () => {
   } = useGetProductsQuery("Product");
   return (
     <>
-      {isLoading && <h2>...Loading</h2>}
+      {isLoading && <Loader />}
       {isError && <h2>Something has gone wrong</h2>}
 
       <h1 style={{ color: "grey" }}>Latest Products</h1>
