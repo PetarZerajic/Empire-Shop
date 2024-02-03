@@ -11,6 +11,11 @@
   width: 20px;
   height: 20px;
 }
+.rounded-pill {
+  position: absolute;
+  top: 5px;
+  margin-left: -5px;
+}
 
 @media screen and (max-width: 767px) {
   .ms-auto .nav-link {
