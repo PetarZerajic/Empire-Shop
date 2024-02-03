@@ -23,9 +23,7 @@ const cartSlice = createSlice({
       const existItem = state.cartItems.find((i) => i._id === _id);
 
       if (existItem) {
-        state.cartItems = state.cartItems.map((item) =>
-          item._id === existItem._id ? action.payload : item
-        );
+        existItem.quantity += quantity;
         existItem.countInStock = countInStock;
       } else {
         state.cartItems = [...state.cartItems, action.payload];
@@ -33,7 +31,10 @@ const cartSlice = createSlice({
 
       //Calculate items price
       state.itemPrice = addDecimals(
-        state.cartItems.reduce((acc, item) => acc + item.price * quantity, 0)
+        state.cartItems.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0
+        )
       );
 
       //Calculate shipping price (If order is over $100 shipping is free ,esle is 10$)
