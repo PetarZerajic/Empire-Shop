@@ -29,11 +29,10 @@ export const Product = () => {
   const addToCartHandler = () => {
     const updatedProduct = {
       ...product,
-      countInStock: product.countInStock - quantity,
       quantity: quantity,
     };
     dispatch(addTocart(updatedProduct));
-    navigate("/");
+    navigate("/cart");
   };
 
   if (product)
