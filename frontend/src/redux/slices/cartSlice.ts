@@ -10,21 +10,24 @@ interface cartSlice {
   totalPrice: number;
 }
 
-const initialState: cartSlice = localStorage.getItem("cart")
-  ? JSON.parse(localStorage.getItem("cart") || "{}")
-  : { cartItems: [] };
+const initialState: cartSlice = {
+  cartItems: [],
+  itemPrice: 0,
+  shippingPrice: 0,
+  taxPrice: 0,
+  totalPrice: 0,
+};
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
     addTocart: (state, action) => {
-      const { _id, countInStock, quantity } = action.payload;
+      const { _id, quantity } = action.payload;
       const existItem = state.cartItems.find((i) => i._id === _id);
 
       if (existItem) {
-        existItem.quantity += quantity;
-        existItem.countInStock = countInStock;
+        existItem.quantity = quantity;
       } else {
         state.cartItems = [...state.cartItems, action.payload];
       }
@@ -47,10 +50,12 @@ const cartSlice = createSlice({
       state.totalPrice = Number(
         (state.itemPrice + state.shippingPrice + state.taxPrice).toFixed(2)
       );
-
-      localStorage.setItem("cart", JSON.stringify(state));
+    },
+    deleteItem: (state, action) => {
+      const { _id } = action.payload;
+      state.cartItems = state.cartItems.filter((i) => i._id !== _id);
     },
   },
 });
-export const { addTocart } = cartSlice.actions;
+export const { addTocart, deleteItem } = cartSlice.actions;
 export default cartSlice.reducer;
