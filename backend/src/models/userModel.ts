@@ -54,4 +54,12 @@ userSchema.pre("save", async function (next) {
   this.passwordConfirm = undefined;
 });
 
-export const User = mongoose.model("User", userSchema);
+userSchema.methods.correctPassword = async function (enteredPassword: string) {
+  return bcrypt.compare(enteredPassword, this.password);
+};
+
+export interface IUser extends InferSchemaType<typeof userSchema> {
+  _id: string;
+  correctPassword(enteredPassword: string): Promise<boolean>;
+}
+export const User = mongoose.model<IUser>("User", userSchema);
