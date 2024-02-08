@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
 import { User } from "../models/userModel";
 import { createSendToken } from "../utils/createSendToken";
 import { AppError } from "../utils/appError";
@@ -55,6 +54,31 @@ export const registerUser = async (
     });
 
     createSendToken(user, 201, res);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const logInUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return next(new AppError(400, "Please provide valid email or password"));
+    }
+    const user = await User.findOne({
+      email,
+    }).select("+password");
+
+    if (!user || !(await user.correctPassword(password))) {
+      return next(new AppError(401, "Incorect email or password"));
+    }
+
+    createSendToken(user, 200, res);
   } catch (err) {
     next(err);
   }
