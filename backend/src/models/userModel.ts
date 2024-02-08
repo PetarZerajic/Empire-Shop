@@ -29,11 +29,11 @@ const userSchema = new mongoose.Schema({
     select: false,
   },
   passwordConfirm: {
-    type: String,
+    type: Schema.Types.Mixed,
     required: [true, "Please confirm your password"],
     validate: {
       // This only wokrs on CREATE and SAVE !
-      validator: function (this: mongoose.Document, value: number) {
+      validator: function (this: mongoose.Document, value: string) {
         return value === this.get("password");
       },
       message: "Passwords are not the same! ",
@@ -44,6 +44,14 @@ const userSchema = new mongoose.Schema({
     default: true,
     select: false,
   },
+});
+
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next();
+
+  const saltRoundes = 12;
+  this.password = await bcrypt.hash(this.password, saltRoundes);
+  this.passwordConfirm = undefined;
 });
 
 export const User = mongoose.model("User", userSchema);
