@@ -1,23 +1,21 @@
 import jwt from "jsonwebtoken";
 import { IUser } from "../models/userModel";
 
-import { Response } from "express";
+import { CookieOptions, Response } from "express";
 
-const signToken = (_id: string) => {
-  return jwt.sign({ _id }, "your-secret-key", {
-    expiresIn: process.env.JWT_EXPIRES_IN,
+const signToken = (userId: string) => {
+  return jwt.sign({ userId }, process.env.JWT_SECRET!, {
+    expiresIn: "120d",
   });
 };
 
 export const createSendToken = (user: IUser, status: number, res: Response) => {
   const token = signToken(user._id);
-  const cookieOptions = {
-    expires: new Date(
-      Date.now() +
-        Number(process.env.JWT_COOKIE_EXPIRES_IN) * 24 * 60 * 60 * 1000
-    ),
+
+  const cookieOptions: CookieOptions = {
     httpOnly: true,
-    secure: false,
+    sameSite: "strict",
+    maxAge: 90 * 24 * 60 * 60 * 1000, //90d
   };
 
   if (process.env.NODE_ENV === "production") cookieOptions.secure = true;
@@ -25,6 +23,7 @@ export const createSendToken = (user: IUser, status: number, res: Response) => {
   res.cookie("jwt", token, cookieOptions);
 
   user.password = undefined;
+
   res.status(status).json({
     status: "success",
     token,
