@@ -26,8 +26,13 @@ export const errorController = (
   res: Response,
   next: NextFunction
 ) => {
+  err.statusCode = err.statusCode || 500;
+  err.status = err.status || "error";
+  err.message = err.message;
+
   if ((process.env.NODE_ENV = "development")) {
     if (err.name === "CastError") err = handleCastError(err);
     sendErrorForDev(err, req, res);
   }
+  next();
 };
