@@ -11,12 +11,16 @@ import {
   updateUser,
   deleteUser,
 } from "../controllers/userController";
+import { protect } from "../controllers/authController";
 
 const router = express.Router();
 
 router.post("/register", registerUser);
 router.post("/login", logInUser);
 router.get("/logut", logOutUser);
+
+router.use(protect);
+
 router
   .route("/profile")
   .get(getUserProfile)
