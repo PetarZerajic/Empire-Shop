@@ -11,7 +11,7 @@ import {
   updateUser,
   deleteUser,
 } from "../controllers/userController";
-import { protect } from "../controllers/authController";
+import { admin, protect } from "../controllers/authController";
 
 const router = express.Router();
 
@@ -26,7 +26,11 @@ router
   .get(getUserProfile)
   .patch(updateUserProfile)
   .delete(deleteUserProfile);
-router.route("/").get(getAllUsers);
-router.route("/:id").get(getUser).patch(updateUser).delete(deleteUser);
+router.route("/").get(admin, getAllUsers);
+router
+  .route("/:id")
+  .get(admin, getUser)
+  .patch(admin, updateUser)
+  .delete(admin, deleteUser);
 
 export default router;
