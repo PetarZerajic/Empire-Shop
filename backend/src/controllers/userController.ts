@@ -61,6 +61,25 @@ export const updateUser = async (
   }
 };
 
+export const deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      return next(new AppError(404, "No document found with that ID"));
+    }
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getUserProfile = async (
   req: Request,
   res: Response,
