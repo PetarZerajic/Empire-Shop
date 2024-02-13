@@ -3,15 +3,18 @@ import {
   getUserProfile,
   getUser,
   getAllUsers,
-  registerUser,
-  logInUser,
-  logOutUser,
   updateUserProfile,
   deleteUserProfile,
-  updateUser,
   deleteUser,
+  updateUser,
 } from "../controllers/userController";
-import { admin, protect } from "../controllers/authController";
+import {
+  admin,
+  logInUser,
+  logOutUser,
+  protect,
+  registerUser,
+} from "../controllers/authController";
 
 const router = express.Router();
 
