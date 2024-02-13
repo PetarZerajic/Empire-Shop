@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import { User } from "../models/userModel";
-import { createSendToken } from "../utils/createSendToken";
 import { AppError } from "../utils/appError";
 
 export const getAllUsers = async (
@@ -40,45 +39,20 @@ export const getUser = async (
   }
 };
 
-export const registerUser = async (
+export const getUserProfile = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const user = await User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password,
-      passwordConfirm: req.body.passwordConfirm,
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return next(new AppError(404, "User not found"));
+    }
+    res.status(200).json({
+      status: "success",
+      data: user,
     });
-
-    createSendToken(user, 201, res);
-  } catch (err) {
-    next(err);
-  }
-};
-
-export const logInUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return next(new AppError(400, "Please provide valid email or password"));
-    }
-    const user = await User.findOne({
-      email,
-    }).select("+password");
-
-    if (!user || !(await user.correctPassword(password))) {
-      return next(new AppError(401, "Incorect email or password"));
-    }
-
-    createSendToken(user, 200, res);
   } catch (err) {
     next(err);
   }
