@@ -38,6 +38,28 @@ export const getUser = async (
     next(err);
   }
 };
+export const updateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = await User.findByIdAndUpdate(req.user.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!user) {
+      return next(new AppError(404, "No document found with that ID"));
+    }
+    res.status(200).json({
+      status: "success",
+      data: { user },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
 
 export const getUserProfile = async (
   req: Request,
