@@ -57,3 +57,37 @@ export const getUserProfile = async (
     next(err);
   }
 };
+
+export const updateUserProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { password, passwordConfirm } = req.body;
+
+    if (password || passwordConfirm) {
+      const message =
+        "This route is not for password updates.Please use /updateUserPassword";
+      return next(new AppError(400, message));
+    }
+    const updateUser = await User.findByIdAndUpdate(
+      req.user.id,
+      {
+        name: req.body.name,
+        email: req.body.email,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    res.status(200).json({
+      status: "success",
+      data: { user: updateUser },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
