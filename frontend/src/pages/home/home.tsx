@@ -20,7 +20,7 @@ export const Home = () => {
   }
   return (
     <>
-      {isLoading && <Loader />}
+      {isLoading && <Loader width={100} height={100} />}
       {error && <Message variant="danger">{errMessage}</Message>}
 
       <h1 style={{ color: "grey" }}>Latest Products</h1>
