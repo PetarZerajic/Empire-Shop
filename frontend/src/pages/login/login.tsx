@@ -28,7 +28,7 @@ export const Login = () => {
 
   const [login, { isLoading }] = useLoginMutation();
 
-  const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
+  const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
       const { email, password } = inputValues;
@@ -49,7 +49,7 @@ export const Login = () => {
   return (
     <FormContainer>
       <h1>Log In</h1>
-      <Form onSubmit={submitHandler}>
+      <Form onSubmit={onSubmitHandler}>
         <Form.Group className="my-3">
           <Form.Label>Email Adress</Form.Label>
           <Form.Control
@@ -85,7 +85,16 @@ export const Login = () => {
       </Form>
       <Row className="py-3">
         <Col>
-          Not have an account ? <Link to={Routes.REGISTER}>Sign up here </Link>
+          Not have an account ?
+          <Link
+            to={
+              redirect.startsWith("/shipping")
+                ? `${Routes.REGISTER}?redirect=${redirect}`
+                : Routes.REGISTER
+            }
+          >
+            Register here
+          </Link>
         </Col>
       </Row>
     </FormContainer>
