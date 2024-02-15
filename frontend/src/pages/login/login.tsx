@@ -51,7 +51,7 @@ export const Login = () => {
       <h1>Log In</h1>
       <Form onSubmit={onSubmitHandler}>
         <Form.Group className="my-3">
-          <Form.Label>Email Adress</Form.Label>
+          <Form.Label>Email Address</Form.Label>
           <Form.Control
             type="email"
             placeholder="example@gmail.com"
