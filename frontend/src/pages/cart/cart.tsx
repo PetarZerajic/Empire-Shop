@@ -14,10 +14,14 @@ import { Message } from "../../components/message/message";
 import { RootState } from "../../redux/store/store";
 import { addTocart, deleteItem } from "../../redux/slices/cartSlice";
 import { IProducts } from "../../interfaces/IProducts";
+import { useNavigate } from "react-router-dom";
 import "./cart.css";
+
 export const Cart = () => {
   const dispatch = useDispatch();
-  const cart = useSelector((state: RootState) => state.cart);
+  const navigate = useNavigate();
+
+  const cart = useSelector((state: RootState) => state.reducer.cart);
   const { cartItems } = cart;
 
   const addToCartHandler = (product: IProducts, quantity: number) => {
@@ -27,10 +31,14 @@ export const Cart = () => {
   const handleRemoveFromCart = (_id: string) => {
     dispatch(deleteItem({ _id }));
   };
+
+  const checkoutHandler = () => {
+    navigate("/login?redirect=/shipping");
+  };
   return (
     <Row>
       <Col md={8}>
-        <h1 style={{ marginBottom: "80px" }}>Shopping Cart</h1>
+        <h1 className="mb-5">Shopping Cart</h1>
         {cartItems.length === 0 ? (
           <Message variant="info">
             Your Cart is empty <Link to="/">Go back</Link>
@@ -103,7 +111,11 @@ export const Cart = () => {
                 .toFixed(2)}
             </ListGroup.Item>
             <ListGroup.Item>
-              <Button type="button" className="btn-block">
+              <Button
+                type="button"
+                className="btn-block"
+                onClick={checkoutHandler}
+              >
                 Proceed To Checkout
               </Button>
             </ListGroup.Item>
