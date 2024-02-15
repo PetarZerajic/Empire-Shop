@@ -54,6 +54,18 @@ const cartSlice = createSlice({
     deleteItem: (state, action) => {
       const { _id } = action.payload;
       state.cartItems = state.cartItems.filter((i) => i._id !== _id);
+
+      state.itemPrice = addDecimals(
+        state.cartItems.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0
+        )
+      );
+      state.shippingPrice = addDecimals(state.itemPrice > 100 ? 0 : 10);
+      state.taxPrice = addDecimals(Number((0.1 * state.itemPrice).toFixed(2)));
+      state.totalPrice = Number(
+        (state.itemPrice + state.shippingPrice + state.taxPrice).toFixed(2)
+      );
     },
   },
 });
