@@ -4,5 +4,6 @@ export const Routes = {
   REGISTER: "/register",
   Product: "/product/:id",
   Products: "/products",
+  Profile: "/profile",
   Cart: "/cart",
 };
