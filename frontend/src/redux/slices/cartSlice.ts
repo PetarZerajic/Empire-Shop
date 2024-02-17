@@ -8,6 +8,13 @@ interface cartSlice {
   shippingPrice: number;
   taxPrice: number;
   totalPrice: number;
+  shippingAddress: {
+    address: string;
+    city: string;
+    postalCode: string;
+    country: string;
+  };
+  paymentMethod: string;
 }
 
 const initialState: cartSlice = {
@@ -16,6 +23,8 @@ const initialState: cartSlice = {
   shippingPrice: 0,
   taxPrice: 0,
   totalPrice: 0,
+  shippingAddress: { address: "", city: "", postalCode: "", country: "" },
+  paymentMethod: "PayPal",
 };
 
 const cartSlice = createSlice({
@@ -67,7 +76,10 @@ const cartSlice = createSlice({
         (state.itemPrice + state.shippingPrice + state.taxPrice).toFixed(2)
       );
     },
+    saveShippingAddress: (state, action) => {
+      state.shippingAddress = action.payload;
+    },
   },
 });
-export const { addTocart, deleteItem } = cartSlice.actions;
+export const { addTocart, deleteItem, saveShippingAddress } = cartSlice.actions;
 export default cartSlice.reducer;
