@@ -6,4 +6,5 @@ export const Routes = {
   Products: "/products",
   Profile: "/profile",
   Cart: "/cart",
+  Shipping: "/shipping",
 };
