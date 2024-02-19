@@ -14,6 +14,7 @@ import { Register } from "../pages/register/register";
 import { Shipping } from "../pages/shipping/shipping";
 import { Protector } from "../utils/protector";
 import { Profile } from "../pages/profile/profile";
+import { Payment } from "../pages/payment/payment";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -30,6 +31,10 @@ const router = createBrowserRouter(
       <Route
         path={Routes.Profile}
         element={<Protector Component={Profile} />}
+      />
+      <Route
+        path={Routes.Payment}
+        element={<Protector Component={Payment} />}
       />
     </Route>
   )
