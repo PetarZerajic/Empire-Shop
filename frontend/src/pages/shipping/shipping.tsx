@@ -2,9 +2,11 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { FormContainer } from "../../components/container/formContainer";
 import { useDispatch, useSelector } from "react-redux";
-import { saveShippingAddress } from "../../redux/slices/cartSlice";
+import { setShippingAddress } from "../../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store/store";
+import { Checkout } from "../../components/checkout/checkout";
+import { Routes } from "../../router/routes";
 
 export const Shipping = () => {
   const { shippingAddress } = useSelector(
@@ -25,8 +27,8 @@ export const Shipping = () => {
   const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    dispatch(saveShippingAddress({ ...inputValues }));
-    navigate("/payment");
+    dispatch(setShippingAddress({ ...inputValues }));
+    navigate(Routes.Payment);
   };
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -37,6 +39,7 @@ export const Shipping = () => {
   };
   return (
     <FormContainer>
+      <Checkout step1={true} step2={true} />
       <h1>Shipping</h1>
       <Form onSubmit={onSubmitHandler}>
         <Form.Group className="my-2">
