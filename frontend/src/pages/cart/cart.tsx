@@ -110,10 +110,10 @@ export const Cart = () => {
                 )
                 .toFixed(2)}
             </ListGroup.Item>
-            <ListGroup.Item>
+            <ListGroup.Item className="mt-2">
               <Button
                 type="button"
-                className="btn-block"
+                className="button"
                 disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
               >
