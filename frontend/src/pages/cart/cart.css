@@ -10,7 +10,10 @@
 .col-md-2 {
   color: gray;
 }
-
+.list-group .button {
+  display: block;
+  margin: 0 auto;
+}
 @media screen and (max-width: 767px) {
   .col-md-2,
   .col-md-3 {
