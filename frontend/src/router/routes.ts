@@ -9,4 +9,5 @@ export const Routes = {
   Shipping: "/shipping",
   Payment: "/payment",
   Placeorder: "/placeorder",
+  Order: "/order/:id",
 };
