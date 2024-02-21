@@ -15,7 +15,8 @@ import { Shipping } from "../pages/shipping/shipping";
 import { Protector } from "../utils/protector";
 import { Profile } from "../pages/profile/profile";
 import { Payment } from "../pages/payment/payment";
-
+import { Placeorder } from "../pages/placeorder/placeorder";
+import { Order } from "../pages/order/order";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path={Routes.HOME} element={<App />}>
@@ -36,6 +37,11 @@ const router = createBrowserRouter(
         path={Routes.Payment}
         element={<Protector Component={Payment} />}
       />
+      <Route
+        path={Routes.Placeorder}
+        element={<Protector Component={Placeorder} />}
+      />
+      <Route path={Routes.Order} element={<Protector Component={Order} />} />
     </Route>
   )
 );
