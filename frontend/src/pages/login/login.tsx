@@ -7,7 +7,7 @@ import { useLoginMutation } from "../../redux/slices/userApiSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { toast } from "react-toastify";
-import { showUsersInfo } from "../../redux/slices/authSlice";
+import { setUserInfo } from "../../redux/slices/authSlice";
 import { Loader } from "../../components/loader/loader";
 
 export const Login = () => {
@@ -33,7 +33,7 @@ export const Login = () => {
       event.preventDefault();
       const { email, password } = inputValues;
       const response = await login({ email, password }).unwrap();
-      dispatch(showUsersInfo({ ...response }));
+      dispatch(setUserInfo({ ...response }));
       navigate(redirect);
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -74,12 +74,7 @@ export const Login = () => {
             required
           />
         </Form.Group>
-        <Button
-          type="submit"
-          variant="outline-dark"
-          className="mt-2"
-          disabled={isLoading}
-        >
+        <Button type="submit" className="mt-2" disabled={isLoading}>
           {isLoading ? <Loader width={30} height={30} /> : "Log In"}
         </Button>
       </Form>
