@@ -1,0 +1,13 @@
+.list-group-item h2,
+p,
+.col a {
+  color: gray;
+}
+
+.col a {
+  /* text-decoration: none; */
+  /* color: gray; */
+}
+.col-md-4 {
+  /* color: gray; */
+}
