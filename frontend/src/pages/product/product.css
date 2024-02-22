@@ -3,10 +3,6 @@ h3 {
   color: grey;
 }
 
-.list-group-item:last-child {
-  justify-content: center;
-  display: flex;
-}
 .col-md-3 .card {
   margin-top: 50px;
 }
