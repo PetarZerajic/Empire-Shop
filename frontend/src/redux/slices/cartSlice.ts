@@ -4,7 +4,7 @@ import { addDecimals } from "../../utils/cartUtils";
 
 interface cartSlice {
   cartItems: IProducts[];
-  itemPrice: number;
+  itemsPrice: number;
   shippingPrice: number;
   taxPrice: number;
   totalPrice: number;
@@ -19,7 +19,7 @@ interface cartSlice {
 
 const initialState: cartSlice = {
   cartItems: [],
-  itemPrice: 0,
+  itemsPrice: 0,
   shippingPrice: 0,
   taxPrice: 0,
   totalPrice: 0,
@@ -42,7 +42,7 @@ const cartSlice = createSlice({
       }
 
       //Calculate items price
-      state.itemPrice = addDecimals(
+      state.itemsPrice = addDecimals(
         state.cartItems.reduce(
           (acc, item) => acc + item.price * item.quantity,
           0
@@ -50,36 +50,50 @@ const cartSlice = createSlice({
       );
 
       //Calculate shipping price (If order is over $100 shipping is free ,esle is 10$)
-      state.shippingPrice = addDecimals(state.itemPrice > 100 ? 0 : 10);
+      state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
 
       //Calculate tax price (15% tax)
-      state.taxPrice = addDecimals(Number((0.15 * state.itemPrice).toFixed(2)));
+      state.taxPrice = addDecimals(
+        Number((0.15 * state.itemsPrice).toFixed(2))
+      );
 
       //Calculate total price
       state.totalPrice = Number(
-        (state.itemPrice + state.shippingPrice + state.taxPrice).toFixed(2)
+        (state.itemsPrice + state.shippingPrice + state.taxPrice).toFixed(2)
       );
     },
     deleteItem: (state, action) => {
       const { _id } = action.payload;
       state.cartItems = state.cartItems.filter((i) => i._id !== _id);
 
-      state.itemPrice = addDecimals(
+      state.itemsPrice = addDecimals(
         state.cartItems.reduce(
           (acc, item) => acc + item.price * item.quantity,
           0
         )
       );
-      state.shippingPrice = addDecimals(state.itemPrice > 100 ? 0 : 10);
-      state.taxPrice = addDecimals(Number((0.1 * state.itemPrice).toFixed(2)));
+      state.shippingPrice = addDecimals(state.itemsPrice > 100 ? 0 : 10);
+      state.taxPrice = addDecimals(Number((0.1 * state.itemsPrice).toFixed(2)));
       state.totalPrice = Number(
-        (state.itemPrice + state.shippingPrice + state.taxPrice).toFixed(2)
+        (state.itemsPrice + state.shippingPrice + state.taxPrice).toFixed(2)
       );
     },
-    saveShippingAddress: (state, action) => {
+    setShippingAddress: (state, action) => {
       state.shippingAddress = action.payload;
+    },
+    savePaymentMehod: (state, action) => {
+      state.paymentMethod = action.payload;
+    },
+    clearCartItems: (state) => {
+      state.cartItems = [];
     },
   },
 });
-export const { addTocart, deleteItem, saveShippingAddress } = cartSlice.actions;
+export const {
+  addTocart,
+  deleteItem,
+  setShippingAddress,
+  savePaymentMehod,
+  clearCartItems,
+} = cartSlice.actions;
 export default cartSlice.reducer;
