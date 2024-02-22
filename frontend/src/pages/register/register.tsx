@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { showUsersInfo } from "../../redux/slices/authSlice";
+import { setUserInfo } from "../../redux/slices/authSlice";
 
 export const Register = () => {
   const [inputValues, setInputValues] = useState({
@@ -44,7 +44,7 @@ export const Register = () => {
         password,
         passwordConfirm,
       }).unwrap();
-      dispatch(showUsersInfo({ ...response }));
+      dispatch(setUserInfo({ ...response }));
       navigate(redirect);
 
       toast.success("Register successfully!", {
@@ -117,12 +117,7 @@ export const Register = () => {
             required
           />
         </Form.Group>
-        <Button
-          type="submit"
-          variant="outline-dark"
-          className="mt-2"
-          disabled={isLoading}
-        >
+        <Button type="submit" className="mt-2" disabled={isLoading}>
           {isLoading ? <Loader width={30} height={30} /> : "Sign Up"}
         </Button>
       </Form>
