@@ -1,12 +1,13 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { Form, Col, Button } from "react-bootstrap";
 import { FormContainer } from "../../components/container/formContainer";
-import { Checkout } from "../../components/checkout/checkout";
+import { CheckoutSteps } from "../../components/checkout-steps/checkoutSteps";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { useNavigate } from "react-router-dom";
 import { savePaymentMehod } from "../../redux/slices/cartSlice";
 import { Routes } from "../../router/routes";
+import { emptyShippingFields } from "../../utils/emptyShippingFields";
 
 export const Payment = () => {
   const { shippingAddress } = useSelector(
@@ -16,8 +17,8 @@ export const Payment = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (Object.values(shippingAddress).every((field) => field === "")) {
-      navigate(Routes.HOME);
+    if (emptyShippingFields(shippingAddress)) {
+      navigate(Routes.Shipping);
     }
   }, [shippingAddress, navigate]);
 
@@ -34,7 +35,7 @@ export const Payment = () => {
   };
   return (
     <FormContainer>
-      <Checkout step1 step2 step3 />
+      <CheckoutSteps step1 step2 step3 />
       <h1>Payment Method</h1>
       <Form onSubmit={onSubmitHandler}>
         <Form.Group>
@@ -45,7 +46,7 @@ export const Payment = () => {
               type="radio"
               className="my-2"
               label="Paypal or Credit Card"
-              value="Card"
+              value="PayPal"
               onChange={onChangeHandler}
             />
           </Col>
