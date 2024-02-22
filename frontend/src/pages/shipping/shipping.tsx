@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setShippingAddress } from "../../redux/slices/cartSlice";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store/store";
-import { Checkout } from "../../components/checkout/checkout";
+import { CheckoutSteps } from "../../components/checkout-steps/checkoutSteps";
 import { Routes } from "../../router/routes";
 
 export const Shipping = () => {
@@ -39,7 +39,7 @@ export const Shipping = () => {
   };
   return (
     <FormContainer>
-      <Checkout step1={true} step2={true} />
+      <CheckoutSteps step1 step2 />
       <h1>Shipping</h1>
       <Form onSubmit={onSubmitHandler}>
         <Form.Group className="my-2">
@@ -68,7 +68,7 @@ export const Shipping = () => {
           <Form.Label>Postal Code</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter  city"
+            placeholder="Enter city"
             name="postalCode"
             value={inputValues.postalCode}
             onChange={onChangeHandler}
