@@ -32,10 +32,20 @@ export const Shipping = () => {
   };
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+
     setInputValues((prevState) => ({
       ...prevState,
       [name]: value,
     }));
+    const validationMessages: { [key: string]: string } = {
+      address: "Address cannot be left blank!",
+      city: "City cannot be left blank!",
+      postalCode: "Postal Code cannot be left blank!",
+      country: "Country cannot be left blank!",
+    };
+
+    const errorMessage = value.trim() === "" ? validationMessages[name] : "";
+    event.target.setCustomValidity(errorMessage);
   };
   return (
     <FormContainer>
