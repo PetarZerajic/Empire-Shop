@@ -5,12 +5,12 @@ import { CheckoutSteps } from "../../components/checkout-steps/checkoutSteps";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { useNavigate } from "react-router-dom";
-import { savePaymentMehod } from "../../redux/slices/cartSlice";
+import { savePaymentMethod } from "../../redux/slices/cartSlice";
 import { Routes } from "../../router/routes";
 import { emptyShippingFields } from "../../utils/emptyShippingFields";
 
 export const Payment = () => {
-  const { shippingAddress } = useSelector(
+  const { shippingAddress, paymentMethod } = useSelector(
     (state: RootState) => state.reducer.cart
   );
   const navigate = useNavigate();
@@ -22,22 +22,24 @@ export const Payment = () => {
     }
   }, [shippingAddress, navigate]);
 
-  const [paymentMethod, setPaymentMethod] = useState("Card");
+  const [checked, setChecked] = useState(false);
 
   const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(savePaymentMehod(paymentMethod));
+    dispatch(savePaymentMethod(paymentMethod));
     navigate(Routes.Placeorder);
   };
 
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setPaymentMethod(event.target.value);
+    const { value } = event.target;
+    dispatch(savePaymentMethod(value));
+    setChecked(true);
   };
   return (
     <FormContainer>
       <CheckoutSteps step1 step2 step3 />
       <h1>Payment Method</h1>
-      <Form onSubmit={onSubmitHandler}>
+      <Form onSubmit={onSubmitHandler} className="mt-3">
         <Form.Group>
           <Form.Label as="legend">Select Method</Form.Label>
           <Col>
@@ -46,12 +48,17 @@ export const Payment = () => {
               type="radio"
               className="my-2"
               label="Paypal or Credit Card"
-              value="PayPal"
+              value={paymentMethod}
               onChange={onChangeHandler}
             />
           </Col>
         </Form.Group>
-        <Button type="submit" variant="primary">
+        <Button
+          className="mt-2"
+          type="submit"
+          variant={checked ? "primary" : "secondary"}
+          disabled={!checked}
+        >
           Contiune
         </Button>
       </Form>
