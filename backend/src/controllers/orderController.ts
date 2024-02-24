@@ -94,3 +94,36 @@ export const addOrderItems = async (
     data: { order },
   });
 };
+
+export const updateOrderToPaid = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const order = await Order.findByIdAndUpdate(
+      req.params.id,
+      {
+        isPaid: true,
+        paidAt: new Date(),
+        paymentResult: {
+          id: req.body.id,
+          status: req.body.status,
+          update_time: req.body.update_time,
+          email_address: req.body.email_address,
+        },
+      },
+      { new: true, runValidators: true }
+    );
+    if (!order) {
+      return next(new AppError(404, "Order  not found"));
+    }
+    console.log(req.body);
+    res.status(200).json({
+      status: "success",
+      data: { order },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
