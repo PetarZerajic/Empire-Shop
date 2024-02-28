@@ -11,7 +11,7 @@ export const getAllUsers = async (
     const users = await User.find();
     res.status(200).json({
       status: "success",
-      resultrs: users.length,
+      results: users.length,
       data: users,
     });
   } catch (err) {
@@ -105,14 +105,7 @@ export const updateUserProfile = async (
   next: NextFunction
 ) => {
   try {
-    const { password, passwordConfirm } = req.body;
-
-    if (password || passwordConfirm) {
-      const message =
-        "This route is not for password updates.Please use /updateUserPassword";
-      return next(new AppError(400, message));
-    }
-    const updateUser = await User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
       req.user.id,
       {
         name: req.body.name,
@@ -126,7 +119,7 @@ export const updateUserProfile = async (
 
     res.status(200).json({
       status: "success",
-      data: { user: updateUser },
+      data: { user },
     });
   } catch (err) {
     next(err);
