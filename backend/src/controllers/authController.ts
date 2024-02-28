@@ -104,3 +104,33 @@ export const logOutUser = async (req: Request, res: Response) => {
     message: "Logged out successfully!",
   });
 };
+
+export const updatePassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { password, passwordCurrent, passwordConfirm } = req.body;
+    const user = await User.findById(req.user.id).select("+password");
+
+    if (!user) {
+      return next(new AppError(404, "User not found"));
+    }
+    if (!(await user.correctPassword(passwordCurrent, user.password))) {
+      return next(new AppError(401, "You are current password is wrong"));
+    }
+
+    user.password = password;
+    user.passwordConfirm = passwordConfirm;
+
+    await user.save();
+
+    res.status(200).json({
+      status: "success",
+      data: { user },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
