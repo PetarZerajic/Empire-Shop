@@ -46,11 +46,13 @@ export const getMyOrders = async (
   next: NextFunction
 ) => {
   try {
-    const order = await Order.findById(req.user.id);
-
+    const order = await Order.find({ user: req.user.id });
+    if (!order) {
+      return next(new AppError(404, "Order not found"));
+    }
     res.status(200).json({
       status: "success",
-      data: { order },
+      data: order,
     });
   } catch (err) {
     next(err);
@@ -118,7 +120,6 @@ export const updateOrderToPaid = async (
     if (!order) {
       return next(new AppError(404, "Order  not found"));
     }
-    console.log(req.body);
     res.status(200).json({
       status: "success",
       data: { order },
