@@ -1,0 +1,19 @@
+.col-md-3,
+h2,
+.form-label {
+  color: gray;
+}
+
+.col-md-9,
+h2,
+.table-responsive table thead tr th {
+  color: gray;
+}
+.col-md-3 .btn {
+  background-color: #1f305e;
+  margin-top: 10px;
+  min-width: 120px;
+  max-width: 120px;
+  min-height: 40px;
+  max-height: 40px;
+}
