@@ -17,6 +17,9 @@ import { Profile } from "../pages/profile/profile";
 import { Payment } from "../pages/payment/payment";
 import { Placeorder } from "../pages/placeorder/placeorder";
 import { Order } from "../pages/order/order";
+import { AdminRoute } from "../components/admin-route/adminRoute";
+import { OrderList } from "../pages/order-list/orderList";
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path={Routes.HOME} element={<App />}>
@@ -42,6 +45,10 @@ const router = createBrowserRouter(
         element={<Protector Component={Placeorder} />}
       />
       <Route path={Routes.Order} element={<Protector Component={Order} />} />
+      <Route
+        path={Routes.AdminOrderList}
+        element={<AdminRoute Component={OrderList} />}
+      />
     </Route>
   )
 );
