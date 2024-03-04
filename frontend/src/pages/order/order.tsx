@@ -14,112 +14,109 @@ import {
   useGetOrderQuery,
   useGetPayPalClientIdQuery,
   usePayOrderMutation,
+  useDeliverOrderMutation,
 } from "../../redux/slices/orderApiSlice";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store/store";
+import { MakeErrorMessage } from "../../utils/makeErrorMessage";
 
 export const Order = () => {
   const { id } = useParams();
-  const { data, isLoading, isSuccess, error } = useGetOrderQuery(id);
+
+  const { data, isLoading, isSuccess, error, refetch } = useGetOrderQuery(id);
+
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
+
+  const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
+
+  const orderDetails: IOrder = data?.data?.order;
+
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
   const {
     data: paypal,
     isLoading: loadingPayPal,
     error: errorPayPal,
-    refetch,
-  } = useGetPayPalClientIdQuery("Order");
+  } = useGetPayPalClientIdQuery();
 
-  const orderDetails: IOrder = data?.data?.order;
+  const [deliverOrder, { isLoading: loadingDeliver }] =
+    useDeliverOrderMutation();
 
   useEffect(() => {
-    enum SCRIPT_LOADING_STATE {
-      PENDING = "pending",
-    }
-
-    const loadPaypalScript = async () => {
-      paypalDispatch({
-        type: "resetOptions",
-        value: {
-          clientId: paypal.clientId,
-          currency: "USD",
-        },
-      });
-      paypalDispatch({
-        type: "setLoadingStatus",
-        value: SCRIPT_LOADING_STATE.PENDING,
-      });
-    };
-    if (orderDetails && !orderDetails.isPaid) {
-      if (!window.paypal) {
-        loadPaypalScript();
+    if (!errorPayPal && !loadingPayPal && paypal?.clientId) {
+      enum SCRIPT_LOADING_STATE {
+        PENDING = "pending",
+      }
+      const loadPaypalScript = async () => {
+        paypalDispatch({
+          type: "resetOptions",
+          value: {
+            clientId: paypal.clientId,
+            currency: "USD",
+          },
+        });
+        paypalDispatch({
+          type: "setLoadingStatus",
+          value: SCRIPT_LOADING_STATE.PENDING,
+        });
+      };
+      if (orderDetails && !orderDetails.isPaid) {
+        if (!window.paypal) {
+          loadPaypalScript();
+        }
       }
     }
-  }, [errorPayPal, loadingPayPal, orderDetails, paypal, paypalDispatch]);
-  let errMessage;
+  }, [errorPayPal, orderDetails, loadingPayPal, paypal, paypalDispatch]);
 
-  if (error) {
-    if ("status" in error) {
-      errMessage =
-        "data" in error
-          ? JSON.stringify((error.data as { message: string }).message)
-          : error.error;
-    }
-  }
+  const { errMessage } = MakeErrorMessage({ error });
 
   const onApprove = (
     data: OnApproveData,
     actions: OnApproveActions
   ): Promise<void> => {
-    if (actions.order) {
-      return actions.order.capture().then(async (details) => {
-        try {
-          await payOrder({ id, details });
-          refetch();
-          toast.success("Payment successfull");
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (err: any) {
-          toast.error(err.data.message || err.message);
-        }
-      });
-    } else {
-      return Promise.reject(new Error("actions.order is undefined"));
-    }
+    return actions.order!.capture().then(async (details) => {
+      try {
+        await payOrder({ id, details });
+        refetch();
+        toast.success("Payment successfull");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        toast.error(err.data.message || err.message);
+      }
+    });
   };
 
-  const onApproveTest = async () => {
-    await payOrder({ id, details: { payer: {} } });
-    refetch();
-    toast.success("Payment successfull");
+  const onError = (err: unknown) => {
+    if (err instanceof Error) toast.error(err.message);
   };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const onError = (err: Record<string, any>) => {
-    toast.error(err.message);
-  };
-  const createOrder = (
-    data: CreateOrderData,
-    actions: CreateOrderActions
-  ): Promise<string> => {
-    if (actions.order) {
-      return actions.order
-        ?.create({
-          purchase_units: [
-            {
-              amount: {
-                value: orderDetails.totalPrice.toString(),
-              },
+  const createOrder = (data: CreateOrderData, actions: CreateOrderActions) => {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: {
+              value: orderDetails.totalPrice.toString(),
             },
-          ],
-        })
-        .then((orderId) => {
-          return orderId;
-        });
-    } else {
-      return Promise.reject(new Error("actions.order is undefined"));
+          },
+        ],
+      })
+      .then((id) => {
+        return id;
+      });
+  };
+  const handleDeliverOrder = async () => {
+    try {
+      await deliverOrder(id);
+      refetch();
+      toast.success("Order delivered");
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      toast.error(err.data.message || err.message);
     }
   };
-
   return (
     <>
       {isLoading && <Loader width={100} height={100} />}
@@ -147,7 +144,7 @@ export const Order = () => {
                   </p>
                   {orderDetails.isDelivered ? (
                     <Message variant="success">
-                      Delivered on : {orderDetails.deliveredAt.toString()}
+                      Delivered on : {orderDetails.deliveredAt}
                     </Message>
                   ) : (
                     <Message variant="info">Not delivered</Message>
@@ -160,7 +157,7 @@ export const Order = () => {
                   </p>
                   {orderDetails.isPaid ? (
                     <Message variant="success">
-                      Paid on {orderDetails.paidAt.toString()}
+                      Paid on {orderDetails.paidAt}
                     </Message>
                   ) : (
                     <Message variant="info">Not Paid </Message>
@@ -222,24 +219,31 @@ export const Order = () => {
                       {isPending ? (
                         <Loader width={30} height={30} />
                       ) : (
-                        <div>
-                          <Button
-                            onClick={onApproveTest}
-                            style={{ marginBottom: "10px" }}
-                          >
-                            Test Pay Order
-                          </Button>
-                          <div>
-                            <PayPalButtons
-                              onApprove={onApprove}
-                              createOrder={createOrder}
-                              onError={onError}
-                            />
-                          </div>
-                        </div>
+                        <>
+                          <PayPalButtons
+                            onApprove={onApprove}
+                            createOrder={createOrder}
+                            onError={onError}
+                          />
+                        </>
                       )}
                     </ListGroup.Item>
                   )}
+
+                  {userInfo &&
+                    userInfo.data.user.role === "admin" &&
+                    orderDetails.isPaid &&
+                    !orderDetails.isDelivered && (
+                      <ListGroup.Item>
+                        <Button type="button" onClick={handleDeliverOrder}>
+                          {loadingDeliver ? (
+                            <Loader width={30} height={30} />
+                          ) : (
+                            "Mark as delivered"
+                          )}
+                        </Button>
+                      </ListGroup.Item>
+                    )}
                 </ListGroup>
               </Card>
             </Col>
