@@ -17,6 +17,7 @@ import { useState } from "react";
 import { addTocart } from "../../redux/slices/cartSlice";
 import { useDispatch } from "react-redux";
 import { Message } from "../../components/message/message";
+import { MakeErrorMessage } from "../../utils/makeErrorMessage";
 
 export const Product = () => {
   const { id } = useParams();
@@ -35,17 +36,7 @@ export const Product = () => {
     dispatch(addTocart(updatedProduct));
     navigate("/cart");
   };
-  let errMessage;
-
-  if (error) {
-    if ("status" in error) {
-      errMessage =
-        "data" in error
-          ? JSON.stringify((error.data as { message: string }).message)
-          : error.error;
-    }
-  }
-
+  const { errMessage } = MakeErrorMessage({ error });
   return (
     <>
       {error && <Message variant="danger">{errMessage}</Message>}
