@@ -10,4 +10,7 @@ export const Routes = {
   Payment: "/payment",
   Placeorder: "/placeorder",
   Order: "/order/:id",
+  AdminOrderList: "/admin/orderlist",
+  AdminProductList: "/admin/productlist",
+  AdminUsersList: "/admin/userlist",
 };
