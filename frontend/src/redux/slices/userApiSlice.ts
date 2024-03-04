@@ -23,8 +23,27 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    updatePassword: build.mutation({
+      query: (data) => ({
+        url: `${USER_URL}/updatePassword`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+    profile: build.mutation({
+      query: (data) => ({
+        url: `${USER_URL}/profile`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { useRegisterMutation, useLoginMutation, useLogoutMutation } =
-  usersApiSlice;
+export const {
+  useRegisterMutation,
+  useLoginMutation,
+  useLogoutMutation,
+  useProfileMutation,
+  useUpdatePasswordMutation,
+} = usersApiSlice;
