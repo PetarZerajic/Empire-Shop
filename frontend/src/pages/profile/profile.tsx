@@ -15,7 +15,7 @@ import { Message } from "../../components/message/message";
 import { IOrder } from "../../interfaces/IOrder";
 import { FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
+import { MakeErrorMessage } from "../../utils/makeErrorMessage";
 
 export const Profile = () => {
   const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
@@ -33,7 +33,7 @@ export const Profile = () => {
   const [updatePassword, { isLoading: loadingUpdatePassword }] =
     useUpdatePasswordMutation();
   const { data: orders, error } = useGetMyOrdersQuery("Order");
-  console.log(orders);
+
   const dispatch = useDispatch();
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
@@ -75,6 +75,7 @@ export const Profile = () => {
       [name]: value,
     }));
   };
+  const { errMessage } = MakeErrorMessage({ error });
 
   return (
     <Row>
@@ -147,7 +148,7 @@ export const Profile = () => {
       </Col>
       <Col md={9}>
         <h2>My Orders</h2>
-        {error && <Message variant="danger">{error}</Message>}
+        {error && <Message variant="danger">{errMessage}</Message>}
         <Table striped hover responsive className="table-sm">
           <thead>
             <tr>
