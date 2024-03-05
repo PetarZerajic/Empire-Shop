@@ -19,6 +19,7 @@ import { Placeorder } from "../pages/placeorder/placeorder";
 import { Order } from "../pages/order/order";
 import { AdminRoute } from "../components/admin-route/adminRoute";
 import { OrderList } from "../pages/order-list/orderList";
+import { ProductList } from "../pages/product-list/productList";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -48,6 +49,10 @@ const router = createBrowserRouter(
       <Route
         path={Routes.AdminOrderList}
         element={<AdminRoute Component={OrderList} />}
+      />
+      <Route
+        path={Routes.AdminProductList}
+        element={<AdminRoute Component={ProductList} />}
       />
     </Route>
   )
