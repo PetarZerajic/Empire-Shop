@@ -35,6 +35,7 @@ export const Profile = () => {
   const { data: orders, error } = useGetMyOrdersQuery("Order");
 
   const dispatch = useDispatch();
+
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
     const { name, email, passwordCurrent, password, passwordConfirm } =
@@ -166,15 +167,14 @@ export const Profile = () => {
                 <td>{order._id}</td>
                 <td>{order.createdAt.substring(0, 10)}</td>
                 <td>${order.totalPrice}</td>
-                <td>{order.paidAt.substring(0, 10)}</td>
+                <td>{order.paidAt?.substring(0, 10)}</td>
                 <td>
                   {order.deliveredAt ? (
-                    order.deliveredAt.substring(0.1)
+                    order.deliveredAt.substring(0, 10)
                   ) : (
                     <FaTimes
                       style={{
                         color: "red",
-                        marginLeft: "30px",
                       }}
                     />
                   )}
