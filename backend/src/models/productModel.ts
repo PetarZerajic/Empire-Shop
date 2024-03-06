@@ -1,6 +1,11 @@
 import mongoose, { InferSchemaType } from "mongoose";
 
 const productSchema = new mongoose.Schema({
+  user: {
+    _id: mongoose.Schema.Types.ObjectId,
+    name: String,
+    email: String,
+  },
   name: {
     type: String,
     required: [true, "A product must have a name!"],
@@ -50,6 +55,7 @@ const productSchema = new mongoose.Schema({
     select: false,
   },
 });
+
 type Product = InferSchemaType<typeof productSchema>;
 
 export const Product = mongoose.model<Product>("Product", productSchema);
