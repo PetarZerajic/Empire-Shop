@@ -8,7 +8,7 @@ export const getAllOrders = async (
   next: NextFunction
 ) => {
   try {
-    const order = await Order.find();
+    const order = await Order.find().populate("user", "id name");
 
     res.status(200).json({
       status: "success",
@@ -30,7 +30,6 @@ export const getOrder = async (
       "user",
       "name email"
     );
-
     res.status(200).json({
       status: "success",
       data: { order },
@@ -46,10 +45,14 @@ export const getMyOrders = async (
   next: NextFunction
 ) => {
   try {
-    const order = await Order.find({ user: req.user.id });
+    const order = await Order.find({ user: req.user._id }).populate(
+      "user",
+      "name email"
+    );
     if (!order) {
       return next(new AppError(404, "Order not found"));
     }
+
     res.status(200).json({
       status: "success",
       data: order,
@@ -81,6 +84,7 @@ export const addOrderItems = async (
   const order = await Order.create({
     orderItems: orderItems.map((item: any) => ({
       ...item,
+      _id: item._id,
     })),
     user: req.user.id,
     shippingAddress,
@@ -103,26 +107,47 @@ export const updateOrderToPaid = async (
   next: NextFunction
 ) => {
   try {
-    const order = await Order.findByIdAndUpdate(
-      req.params.id,
-      {
-        isPaid: true,
-        paidAt: new Date(),
-        paymentResult: {
-          id: req.body.id,
-          status: req.body.status,
-          update_time: req.body.update_time,
-          email_address: req.body.email_address,
-        },
-      },
-      { new: true, runValidators: true }
-    );
+    const order = await Order.findById(req.params.id);
     if (!order) {
       return next(new AppError(404, "Order  not found"));
     }
+    order.isPaid = true;
+    order.paidAt = new Date();
+    order.paymentResult = {
+      id: req.body.id,
+      status: req.body.status,
+      update_time: req.body.update_time,
+      email_address: req.body.email_address,
+    };
+
+    const updatedOrder = await order.save();
     res.status(200).json({
       status: "success",
-      data: { order },
+      data: { updatedOrder },
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const updateOrderToDelivered = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const order = await Order.findById(req.params.id);
+
+    if (!order) {
+      return next(new AppError(404, "Order not found"));
+    }
+
+    order.isDelivered = true;
+    order.deliveredAt = new Date();
+    const updatedOrder = await order.save();
+    res.status(200).json({
+      status: "success",
+      data: { updatedOrder },
     });
   } catch (err) {
     next(err);
