@@ -4,10 +4,11 @@ import { connectToDb } from "../config/db";
 import productRoutes from "./routes/productRoutes";
 import userRoutes from "./routes/userRoutes";
 import orderRoutes from "./routes/orderRoutes";
+import uploadRoutes from "./routes/uploadRoutes";
 import { errorController } from "./controllers/errorController";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-
+import path from "path";
 connectToDb();
 
 const app = express();
@@ -25,6 +26,7 @@ if (process.env.NODE_ENV === "development") {
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/uploads", uploadRoutes);
 
 app.get("/api/config/paypal", (req, res) =>
   res.send({
