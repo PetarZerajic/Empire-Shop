@@ -14,6 +14,7 @@ import {
   logOutUser,
   protect,
   registerUser,
+  updatePassword,
 } from "../controllers/authController";
 
 const router = express.Router();
@@ -29,6 +30,8 @@ router
   .get(getUserProfile)
   .patch(updateUserProfile)
   .delete(deleteUserProfile);
+
+router.patch("/updatePassword", updatePassword);
 router.route("/").get(admin, getAllUsers);
 router
   .route("/:id")
