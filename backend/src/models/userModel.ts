@@ -60,6 +60,9 @@ userSchema.methods.correctPassword = async function (enteredPassword: string) {
 
 export interface IUser extends InferSchemaType<typeof userSchema> {
   _id: string;
-  correctPassword(enteredPassword: string): Promise<boolean>;
+  correctPassword(
+    enteredPassword: string,
+    userPassword?: string
+  ): Promise<boolean>;
 }
 export const User = mongoose.model<IUser>("User", userSchema);
