@@ -9,6 +9,11 @@ const orderSchema = new mongoose.Schema(
     },
     orderItems: [
       {
+        _id: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          ref: "Product",
+        },
         name: { type: String, required: [true, "Oreder must have a name"] },
         quantity: {
           type: Number,
