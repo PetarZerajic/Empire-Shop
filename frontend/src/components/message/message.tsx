@@ -1,8 +1,11 @@
 import { ReactNode } from "react";
 import { Alert } from "react-bootstrap";
 
-export const Message = (props: { variant: string; children: ReactNode }) => {
-  const { variant, children } = props;
+interface IProps {
+  variant?: string;
+  children: ReactNode;
+}
 
+export const Message = ({ variant, children }: IProps) => {
   return <Alert variant={variant}>{children}</Alert>;
 };
