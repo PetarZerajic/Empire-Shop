@@ -4,20 +4,11 @@ import { ProductCard } from "../../components/card/productCard";
 import { IProducts } from "../../interfaces/IProducts";
 import { Loader } from "../../components/loader/loader";
 import { Message } from "../../components/message/message";
-export const Home = () => {
-  const {
-    data: products,
-    isLoading,
-    error,
-    isSuccess,
-  } = useGetProductsQuery("Product");
+import { MakeErrorMessage } from "../../utils/makeErrorMessage";
 
-  let errMessage = "";
-  if (error) {
-    if ("status" in error) {
-      errMessage = "data" in error ? JSON.stringify(error.data) : error.error;
-    }
-  }
+export const Home = () => {
+  const { data: products, isLoading, error, isSuccess } = useGetProductsQuery();
+  const { errMessage } = MakeErrorMessage({ error });
   return (
     <>
       {isLoading && <Loader width={100} height={100} />}
