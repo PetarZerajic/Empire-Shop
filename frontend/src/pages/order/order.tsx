@@ -11,7 +11,7 @@ import {
   CreateOrderActions,
 } from "@paypal/paypal-js";
 import {
-  useGetOrderQuery,
+  useGetOneOrderQuery,
   useGetPayPalClientIdQuery,
   usePayOrderMutation,
   useDeliverOrderMutation,
@@ -25,15 +25,16 @@ import { MakeErrorMessage } from "../../utils/makeErrorMessage";
 export const Order = () => {
   const { id } = useParams();
 
-  const { data, isLoading, isSuccess, error, refetch } = useGetOrderQuery(id);
+  const { data, isLoading, isSuccess, error, refetch } =
+    useGetOneOrderQuery(id);
 
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
 
   const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
 
-  const orderDetails: IOrder = data?.data?.order;
-
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  const orderDetails: IOrder = data?.data?.order;
 
   const {
     data: paypal,
