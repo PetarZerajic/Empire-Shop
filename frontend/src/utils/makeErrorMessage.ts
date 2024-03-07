@@ -16,7 +16,9 @@ export const MakeErrorMessage = ({ error }: IProps) => {
     } else {
       errMessage =
         "data" in error
-          ? (error.data as { message: string }).message
+          ? JSON.stringify(
+              (error.data as { message: string }).message || error.data
+            )
           : error.error;
     }
   }
