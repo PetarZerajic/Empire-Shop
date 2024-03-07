@@ -13,12 +13,9 @@ import "./header.css";
 export const Header = () => {
   const { cartItems } = useSelector((state: RootState) => state.reducer.cart);
   const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const [logutApiCall] = useLogoutMutation();
-
   const logoutHandler = async () => {
     try {
       await logutApiCall().unwrap();
@@ -67,6 +64,19 @@ export const Header = () => {
                     <FaUser /> Log in
                   </Nav.Link>
                 </LinkContainer>
+              )}
+              {userInfo?.data.user.role === "admin" && (
+                <NavDropdown title="Admin">
+                  <LinkContainer to={Routes.AdminProductList}>
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to={Routes.AdminUsersList}>
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to={Routes.AdminOrderList}>
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>
