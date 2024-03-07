@@ -92,7 +92,7 @@ export const Placeorder = () => {
                       <Col md={4}>
                         <p>
                           {item.quantity} x ${item.price} =
-                          {item.quantity * item.price}
+                          {item.quantity! * item.price}
                         </p>
                       </Col>
                     </Row>
