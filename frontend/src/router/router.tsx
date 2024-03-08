@@ -18,8 +18,9 @@ import { Payment } from "../pages/payment/payment";
 import { Placeorder } from "../pages/placeorder/placeorder";
 import { Order } from "../pages/order/order";
 import { AdminRoute } from "../components/admin-route/adminRoute";
-import { OrderList } from "../pages/order-list/orderList";
-import { ProductList } from "../pages/product-list/productList";
+import { OrderList } from "../pages/admin/order-list/orderList";
+import { ProductList } from "../pages/admin/product-list/productList";
+import { UserList } from "../pages/admin/user-list/userList";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -53,6 +54,10 @@ const router = createBrowserRouter(
       <Route
         path={Routes.AdminProductList}
         element={<AdminRoute Component={ProductList} />}
+      />
+      <Route
+        path={Routes.AdminUsersList}
+        element={<AdminRoute Component={UserList} />}
       />
     </Route>
   )
