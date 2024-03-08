@@ -3,6 +3,6 @@ import { uploadOnePhoto } from "../controllers/uploadController";
 
 const router = express.Router();
 
-router.post("/", uploadOnePhoto);
+router.post("/:category", uploadOnePhoto);
 
 export default router;
