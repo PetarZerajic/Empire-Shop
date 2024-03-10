@@ -8,10 +8,17 @@ export const getAllproducts = async (
   next: NextFunction
 ) => {
   try {
-    const products = await Product.find();
+    const page = Number(req.query.pageNumber) || 1;
+    const perPage = 8;
+    const start = (page - 1) * perPage;
+    const count = await Product.countDocuments();
+    const products = await Product.find().skip(start).limit(perPage);
+
     res.status(200).json({
       status: "success",
       results: products.length,
+      page,
+      pages: Math.ceil(count / perPage),
       data: products,
     });
   } catch (err) {
@@ -52,7 +59,6 @@ export const createProduct = async (
       brand: req.body.brand,
       category: req.body.category,
       countInStock: req.body.countInStock,
-      user: { _id: req.user._id, name: req.user.name, email: req.user.email },
     });
     res.status(201).json({
       status: "success",
