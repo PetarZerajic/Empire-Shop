@@ -22,47 +22,50 @@ import { OrderList } from "../pages/admin/order-list/orderList";
 import { ProductList } from "../pages/admin/product-list/productList";
 import { UserList } from "../pages/admin/user-list/userList";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path={Routes.HOME} element={<App />}>
-      <Route index={true} path={Routes.HOME} element={<Home />} />
-      <Route path={Routes.Product} element={<Product />} />
-      <Route path={Routes.Cart} element={<Cart />} />
-      <Route path={Routes.LOGIN} element={<Login />} />
-      <Route path={Routes.REGISTER} element={<Register />} />
-      <Route
-        path={Routes.Shipping}
-        element={<Protector Component={Shipping} />}
-      />
-      <Route
-        path={Routes.Profile}
-        element={<Protector Component={Profile} />}
-      />
-      <Route
-        path={Routes.Payment}
-        element={<Protector Component={Payment} />}
-      />
-      <Route
-        path={Routes.Placeorder}
-        element={<Protector Component={Placeorder} />}
-      />
-      <Route path={Routes.Order} element={<Protector Component={Order} />} />
-      <Route
-        path={Routes.AdminOrderList}
-        element={<AdminRoute Component={OrderList} />}
-      />
-      <Route
-        path={Routes.AdminProductList}
-        element={<AdminRoute Component={ProductList} />}
-      />
-      <Route
-        path={Routes.AdminUsersList}
-        element={<AdminRoute Component={UserList} />}
-      />
-    </Route>
-  )
-);
-
 export const Router = () => {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path={Routes.Home} element={<App />}>
+        <Route index={true} path={Routes.Page} element={<Home />} />
+
+        <Route path={Routes.Product} element={<Product />} />
+        <Route path={Routes.Cart} element={<Cart />} />
+        <Route path={Routes.Login} element={<Login />} />
+        <Route path={Routes.Register} element={<Register />} />
+        <Route
+          path={Routes.Shipping}
+          element={<Protector Component={Shipping} />}
+        />
+        <Route
+          path={Routes.Profile}
+          element={<Protector Component={Profile} />}
+        />
+        <Route
+          path={Routes.Payment}
+          element={<Protector Component={Payment} />}
+        />
+        <Route
+          path={Routes.Placeorder}
+          element={<Protector Component={Placeorder} />}
+        />
+        <Route path={Routes.Order} element={<Protector Component={Order} />} />
+        <Route
+          path={Routes.AdminOrderList}
+          element={<AdminRoute Component={OrderList} />}
+        />
+
+        <Route
+          path={`${Routes.AdminProductList}${Routes.Page}`}
+          element={<AdminRoute Component={ProductList} />}
+        />
+
+        <Route
+          path={Routes.AdminUsersList}
+          element={<AdminRoute Component={UserList} />}
+        />
+      </Route>
+    )
+  );
+
   return <RouterProvider router={router} />;
 };
