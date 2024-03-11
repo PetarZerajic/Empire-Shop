@@ -7,7 +7,7 @@ export interface IProducts {
   brand: string;
   category: string;
   countInStock: number;
-  rating: number;
-  numReviews: number;
-  quantity: number;
+  rating?: number;
+  numReviews?: number;
+  quantity?: number;
 }
