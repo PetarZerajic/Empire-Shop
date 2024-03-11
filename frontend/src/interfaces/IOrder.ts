@@ -11,6 +11,12 @@ export interface IOrder {
     }
   ];
   paymentMethod: string;
+  paymentResult: {
+    id: string;
+    status: string;
+    update_time: string;
+    email_address: string;
+  };
   shippingAddress: {
     address: string;
     city: string;
@@ -23,9 +29,9 @@ export interface IOrder {
   createdAt: string;
   isDelivered: boolean;
   isPaid: boolean;
-  paidAt: Date;
+  paidAt: string;
   updatedAt: string;
-  deliveredAt: Date;
+  deliveredAt: string;
   user: {
     email: string;
     name: string;
