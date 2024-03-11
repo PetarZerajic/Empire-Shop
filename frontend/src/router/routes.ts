@@ -1,7 +1,8 @@
 export const Routes = {
-  HOME: "/",
-  LOGIN: "/login",
-  REGISTER: "/register",
+  Home: "/",
+  Login: "/login",
+  Register: "/register",
+  Page: "/page?/:pageNumber?",
   Product: "/product/:id",
   Products: "/products",
   Profile: "/profile",
