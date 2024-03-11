@@ -10,7 +10,10 @@ export const ProductCard = (props: { product: IProducts }) => {
   return (
     <Card className="my-3 p-3 rounded">
       <Link to={`/product/${product._id}`}>
-        <Card.Img src={`images/products/${product.imageCover}`} variant="top" />
+        <Card.Img
+          src={`/images/products/${product.imageCover}`}
+          variant="top"
+        />
       </Link>
       <Card.Body>
         <Link to={`/product/${product._id}`}>
@@ -20,7 +23,7 @@ export const ProductCard = (props: { product: IProducts }) => {
         </Link>
         <Card.Text as="div">
           <Rating
-            value={product.rating}
+            value={product.rating!}
             text={`${product.numReviews} reviews`}
           />
         </Card.Text>
