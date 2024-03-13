@@ -1,57 +1,39 @@
 import { FaStar, FaStarHalfAlt, FaRegStar } from "react-icons/fa";
 import "./rating.css";
 
-export const Rating = (props: { value: number; text: string }) => {
-  const { value, text } = props;
+interface IProps {
+  value: number;
+  text?: string;
+  handleChangeRating?(value: number): void;
+}
+
+export const Rating = (props: IProps) => {
+  const { value, text, handleChangeRating } = props;
+
+  const handleStarClick = (index: number) => {
+    let newValue = index + 1;
+    if (value === newValue) {
+      newValue -= 0.5;
+    }
+    handleChangeRating && handleChangeRating(newValue);
+  };
+  const stars = [];
+
+  for (let i = 0; i < 5; i++) {
+    if (value >= i + 1) {
+      stars.push(<FaStar key={i} onClick={() => handleStarClick(i)} />);
+    } else if (value >= i + 0.5) {
+      stars.push(<FaStarHalfAlt key={i} onClick={() => handleStarClick(i)} />);
+    } else {
+      stars.push(<FaRegStar key={i} onClick={() => handleStarClick(i)} />);
+    }
+  }
   return (
     <div className="rating">
-      <span>
-        {value >= 1 ? (
-          <FaStar />
-        ) : value >= 0.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {value >= 2 ? (
-          <FaStar />
-        ) : value >= 1.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {value >= 3 ? (
-          <FaStar />
-        ) : value >= 2.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {value >= 4 ? (
-          <FaStar />
-        ) : value >= 3.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-      <span>
-        {value >= 5 ? (
-          <FaStar />
-        ) : value >= 4.5 ? (
-          <FaStarHalfAlt />
-        ) : (
-          <FaRegStar />
-        )}
-      </span>
-
-      <span className="rating-text">{text && text}</span>
+      {stars.map((star, index) => (
+        <span key={index}>{star}</span>
+      ))}
+      <span className="text">{text}</span>
     </div>
   );
 };
