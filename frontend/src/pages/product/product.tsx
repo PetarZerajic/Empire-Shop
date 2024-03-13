@@ -11,37 +11,89 @@ import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Rating } from "../../components/rating/rating";
 import { Routes } from "../../router/routes";
-import { useGetOneProductQuery } from "../../redux/slices/productsApiSlice";
-import { useState } from "react";
+import {
+  useCreateProductReviewMutation,
+  useGetOneProductQuery,
+} from "../../redux/slices/productsApiSlice";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { addTocart } from "../../redux/slices/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Message } from "../../components/message/message";
 import { MakeErrorMessage } from "../../utils/makeErrorMessage";
 import "./product.css";
+import { RootState } from "../../redux/store/store";
+import { toast } from "react-toastify";
 
 export const Product = () => {
   const { id } = useParams();
-  const { data: product, isSuccess, error } = useGetOneProductQuery(id);
-  const [quantity, setQuantity] = useState<number>(1);
+  const {
+    data: product,
+    isSuccess,
+    refetch,
+    error,
+  } = useGetOneProductQuery(id);
+  const [createReview, { isLoading }] = useCreateProductReviewMutation();
 
+  const [inputValues, setInputValues] = useState({
+    quantity: 1,
+    rating: 0,
+    comment: "",
+  });
+
+  const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const addToCartHandler = () => {
     const updatedProduct = {
       ...product?.data,
-      quantity: quantity,
+      quantity: inputValues.quantity,
     };
     dispatch(addTocart(updatedProduct));
     navigate("/cart");
   };
+
+  const handleChangeRating = (value: number) => {
+    setInputValues((prevState) => ({
+      ...prevState,
+      rating: value,
+    }));
+  };
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value, name } = event.target;
+    setInputValues((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+  const handleOnSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    try {
+      await createReview({
+        id,
+        data: {
+          ...inputValues,
+        },
+      }).unwrap();
+      refetch();
+      toast.success("Review submitted");
+      setInputValues({ ...inputValues, rating: 0, comment: "" });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      toast.error(err.data.message || err.data.error);
+    }
+  };
+  const isReviewAdded = product?.data.reviews?.find(
+    (i) => i.user === userInfo?.data.user._id
+  );
   const { errMessage } = MakeErrorMessage({ error });
+
   return (
     <>
       {error && <Message variant="danger">{errMessage}</Message>}
       {isSuccess && (
         <>
-          <Link to={Routes.HOME} className="btn btn-light my-3">
+          <Link to={Routes.Home} className="btn btn-light my-3">
             Go back
           </Link>
           <Row>
@@ -101,10 +153,9 @@ export const Product = () => {
                         <Col>
                           <Form.Control
                             as="select"
-                            value={quantity}
-                            onChange={(event) =>
-                              setQuantity(+event.target.value)
-                            }
+                            name="quantity"
+                            value={inputValues.quantity}
+                            onChange={handleChange}
                           >
                             {[...Array(product.data.countInStock).keys()].map(
                               (value) => (
@@ -129,6 +180,52 @@ export const Product = () => {
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
+            </Col>
+          </Row>
+          <Row className="review">
+            <Col md={6}>
+              <h2>{isReviewAdded ? "Reviews" : "Create Review"}</h2>
+              {userInfo ? (
+                <div className="mt-4">
+                  {!isReviewAdded ? (
+                    <Form onSubmit={handleOnSubmit}>
+                      <Form.Group controlId="rating" className="my-2">
+                        <Form.Label>Rating</Form.Label>
+                        <Rating
+                          value={inputValues.rating}
+                          handleChangeRating={handleChangeRating}
+                        />
+                      </Form.Group>
+                      <Form.Group className="my-2">
+                        <Form.Label>Comment</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          name="comment"
+                          value={inputValues.comment}
+                          onChange={handleChange}
+                        />
+                      </Form.Group>
+                      <Button disabled={isLoading} type="submit">
+                        Submit
+                      </Button>
+                    </Form>
+                  ) : null}
+                </div>
+              ) : (
+                <Message>
+                  Please <Link to={Routes.Login}>log in</Link> to write a review
+                </Message>
+              )}
+              <ListGroup.Item className="mt-5" variant="flush">
+                {product.data.reviews?.map((review) => (
+                  <ListGroup.Item key={review._id}>
+                    <strong>{review.name}</strong>
+                    <Rating value={review.rating} />
+                    <p>{review.createdAt?.substring(0, 10)}</p>
+                    <p>{review.comment}</p>
+                  </ListGroup.Item>
+                ))}
+              </ListGroup.Item>
             </Col>
           </Row>
         </>
