@@ -11,7 +11,7 @@ export const AdminRoute = ({ Component }: IProps) => {
   const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
 
   if (userInfo?.data.user.role !== "admin") {
-    return <Navigate to={Routes.LOGIN} replace />;
+    return <Navigate to={Routes.Login} replace />;
   }
   return <Component />;
 };
