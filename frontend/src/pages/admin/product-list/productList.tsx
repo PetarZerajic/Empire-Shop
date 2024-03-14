@@ -14,15 +14,20 @@ import { ChangeEvent, useState } from "react";
 import { ModalContainer } from "../../../components/container/modalContainer";
 import { IProducts } from "../../../interfaces/IProducts";
 import Tooltip from "react-bootstrap/Tooltip";
+import { Paginate } from "../../../components/paginate/paginate";
+import { Link, useParams } from "react-router-dom";
+import { Message } from "../../../components/message/message";
 
 export const ProductList = () => {
+  const { pageNumber } = useParams();
   const {
     data: products,
     isLoading,
     isSuccess,
     error,
     refetch,
-  } = useGetProductsQuery();
+  } = useGetProductsQuery(pageNumber);
+
   const [createProduct, { isLoading: createLoading }] =
     useCreateProductMutation();
   const [updateProduct, { isLoading: updateLoading }] =
@@ -142,58 +147,63 @@ export const ProductList = () => {
       </Row>
       {isLoading && <Loader width={100} height={100} />}
       {loadingDelete && <Loader width={100} height={100} />}
-
-      {error && errMessage}
+      {error && <Message variant="danger">{errMessage}</Message>}
       {isSuccess && (
-        <Table striped hover responsive className="table-sm">
-          <thead>
-            <tr>
-              <th />
-              <th>NAME</th>
-              <th>PRICE</th>
-              <th>CATEGORY</th>
-              <th>BRAND</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {products.data.map((item) => (
-              <tr key={item._id}>
-                <td>
-                  <img src={`/images/products/${item.imageCover}`} alt="" />
-                </td>
-                <td>{item.name}</td>
-                <td>${item.price}</td>
-                <td>{item.category}</td>
-                <td>{item.brand}</td>
-                <td>
-                  <OverlayTrigger
-                    overlay={<Tooltip id="tooltip-top">Edit</Tooltip>}
-                  >
-                    <Button
-                      variant="light"
-                      className="btn-sm mx-2"
-                      onClick={() => handleOpenForm(item)}
-                    >
-                      <FaEdit />
-                    </Button>
-                  </OverlayTrigger>
-                  <OverlayTrigger
-                    overlay={<Tooltip id="tooltip-top">Delete</Tooltip>}
-                  >
-                    <Button
-                      variant="light"
-                      className="btn-sm mx-2"
-                      onClick={() => deleteItemHandler(item._id)}
-                    >
-                      <FaTrash style={{ color: "maroon" }} />
-                    </Button>
-                  </OverlayTrigger>
-                </td>
+        <>
+          <Table striped hover responsive className="table-sm">
+            <thead>
+              <tr>
+                <th />
+                <th>NAME</th>
+                <th>PRICE</th>
+                <th>CATEGORY</th>
+                <th>BRAND</th>
+                <th />
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            </thead>
+            <tbody>
+              {products.data.map((item) => (
+                <tr key={item._id}>
+                  <td>
+                    <Link to={`/product/${item._id}`}>
+                      <img src={`/images/products/${item.imageCover}`} alt="" />
+                    </Link>
+                  </td>
+                  <td>{item.name}</td>
+                  <td>${item.price}</td>
+                  <td>{item.category}</td>
+                  <td>{item.brand}</td>
+                  <td>
+                    <OverlayTrigger
+                      overlay={<Tooltip id="tooltip-top">Edit</Tooltip>}
+                    >
+                      <Button
+                        variant="light"
+                        className="btn-sm mx-2"
+                        onClick={() => handleOpenForm(item)}
+                      >
+                        <FaEdit />
+                      </Button>
+                    </OverlayTrigger>
+                    <OverlayTrigger
+                      overlay={<Tooltip id="tooltip-top">Delete</Tooltip>}
+                    >
+                      <Button
+                        variant="light"
+                        className="btn-sm mx-2"
+                        onClick={() => deleteItemHandler(item._id)}
+                      >
+                        <FaTrash style={{ color: "maroon" }} />
+                      </Button>
+                    </OverlayTrigger>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+
+          <Paginate pages={products.pages} page={products.page} role="admin" />
+        </>
       )}
     </>
   );
