@@ -84,8 +84,8 @@ export const Login = () => {
           <Link
             to={
               redirect.startsWith("/shipping")
-                ? `${Routes.REGISTER}?redirect=${redirect}`
-                : Routes.REGISTER
+                ? `${Routes.Register}?redirect=${redirect}`
+                : Routes.Register
             }
           >
             Register here
