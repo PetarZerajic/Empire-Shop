@@ -96,7 +96,7 @@ export const Cart = () => {
               <h2>
                 Subtotal (
                 {cartItems.reduce(
-                  (acc, currentItem) => acc + currentItem.quantity,
+                  (acc, currentItem) => acc + currentItem.quantity!,
                   0
                 )}
                 ) items
@@ -105,7 +105,7 @@ export const Cart = () => {
               {cartItems
                 .reduce(
                   (acc, curentItem) =>
-                    acc + curentItem.quantity * curentItem.price,
+                    acc + curentItem.quantity! * curentItem.price,
                   0
                 )
                 .toFixed(2)}
