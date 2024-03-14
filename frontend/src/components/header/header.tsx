@@ -21,7 +21,7 @@ export const Header = () => {
       await logutApiCall().unwrap();
 
       dispatch(logout());
-      navigate(Routes.LOGIN);
+      navigate(Routes.Login);
     } catch (err) {
       console.log(err);
     }
@@ -59,7 +59,7 @@ export const Header = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <LinkContainer to={Routes.LOGIN}>
+                <LinkContainer to={Routes.Login}>
                   <Nav.Link>
                     <FaUser /> Log in
                   </Nav.Link>
