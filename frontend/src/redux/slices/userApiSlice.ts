@@ -1,5 +1,6 @@
 import { apiSlice } from "./apiSlice";
-import { USER_URL } from "../../constants/constants";
+import { UPLOADS_URL, USER_URL } from "../../constants/constants";
+import { IUsers } from "../../interfaces/IUsers";
 
 export const usersApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
@@ -23,6 +24,26 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         method: "POST",
       }),
     }),
+    getUsers: build.query<{ data: IUsers[] }, void>({
+      query: () => ({
+        url: USER_URL,
+      }),
+      keepUnusedDataFor: 5,
+    }),
+    profile: build.mutation({
+      query: (data) => ({
+        url: `${USER_URL}/profile`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+    updateUser: build.mutation({
+      query: ({ id, data }) => ({
+        url: `${USER_URL}/${id}`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
     updatePassword: build.mutation({
       query: (data) => ({
         url: `${USER_URL}/updatePassword`,
@@ -30,11 +51,17 @@ export const usersApiSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
-    profile: build.mutation({
+    uploadUserPhoto: build.mutation({
       query: (data) => ({
-        url: `${USER_URL}/profile`,
-        method: "PATCH",
+        url: `${UPLOADS_URL}/users`,
+        method: "POST",
         body: data,
+      }),
+    }),
+    deleteUser: build.mutation({
+      query: (id) => ({
+        url: `${USER_URL}/${id}`,
+        method: "DELETE",
       }),
     }),
   }),
@@ -44,6 +71,10 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useLogoutMutation,
+  useGetUsersQuery,
   useProfileMutation,
+  useUpdateUserMutation,
   useUpdatePasswordMutation,
+  useUploadUserPhotoMutation,
+  useDeleteUserMutation,
 } = usersApiSlice;
