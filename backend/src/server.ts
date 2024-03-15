@@ -1,14 +1,15 @@
 import express from "express";
-import "dotenv/config.js";
 import { connectToDb } from "../config/db";
 import productRoutes from "./routes/productRoutes";
 import userRoutes from "./routes/userRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import uploadRoutes from "./routes/uploadRoutes";
+import reviewRoutes from "./routes/reviewRoute";
 import { errorController } from "./controllers/errorController";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-import path from "path";
+import "dotenv/config.js";
+
 connectToDb();
 
 const app = express();
@@ -27,6 +28,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/uploads", uploadRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 app.get("/api/config/paypal", (req, res) =>
   res.send({
