@@ -7,14 +7,17 @@ import {
   updateProduct,
 } from "../controllers/productController";
 import { admin, protect } from "../controllers/authController";
+import reviewRouter from "./reviewRoute";
+
 const router = express.Router();
 
-router.use(protect);
-router.route("/").get(getAllproducts).post(admin, createProduct);
+router.use("/:id/reviews", reviewRouter);
+router.route("/").get(getAllproducts).post(protect, admin, createProduct);
+
 router
   .route("/:id")
   .get(getOneProduct)
-  .patch(updateProduct)
-  .delete(deleteOneProduct);
+  .patch(protect, admin, updateProduct)
+  .delete(protect, admin, deleteOneProduct);
 
 export default router;
