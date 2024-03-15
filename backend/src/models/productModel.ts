@@ -1,4 +1,5 @@
 import mongoose, { InferSchemaType } from "mongoose";
+import { reviewSchema } from "./reviewModel";
 
 const productSchema = new mongoose.Schema({
   user: {
@@ -38,6 +39,7 @@ const productSchema = new mongoose.Schema({
     default: 0,
     min: 0,
   },
+  reviews: [reviewSchema],
   rating: {
     type: Number,
     default: 0,
