@@ -11,8 +11,13 @@ export const getAllproducts = async (
     const page = Number(req.query.pageNumber) || 1;
     const perPage = 8;
     const start = (page - 1) * perPage;
-    const count = await Product.countDocuments();
-    const products = await Product.find().skip(start).limit(perPage);
+    const keyword = req.query.keyword
+      ? { name: { $regex: req.query.keyword, $options: "i" } }
+      : {};
+    const count = await Product.countDocuments({ ...keyword });
+    const products = await Product.find({ ...keyword })
+      .skip(start)
+      .limit(perPage);
 
     res.status(200).json({
       status: "success",
@@ -40,6 +45,23 @@ export const getOneProduct = async (
     res.status(200).json({
       status: "success",
       data: product,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getTopProducts = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const products = await Product.find().sort({ rating: -1 }).limit(5);
+
+    res.status(200).json({
+      status: "success",
+      data: products,
     });
   } catch (err) {
     next(err);
