@@ -5,20 +5,29 @@ import { IProducts } from "../../interfaces/IProducts";
 import { Loader } from "../../components/loader/loader";
 import { Message } from "../../components/message/message";
 import { MakeErrorMessage } from "../../utils/makeErrorMessage";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Paginate } from "../../components/paginate/paginate";
+import { CarouselProduct } from "../../components/carousel/carousel";
+import { Routes } from "../../router/routes";
+
 export const Home = () => {
-  const { pageNumber } = useParams();
+  const { keyword, pageNumber } = useParams();
   const {
     data: products,
     isLoading,
     isSuccess,
     error,
-  } = useGetProductsQuery(pageNumber);
+  } = useGetProductsQuery({ keyword, pageNumber });
   const { errMessage } = MakeErrorMessage({ error });
-
   return (
     <>
+      {keyword ? (
+        <Link to={Routes.Home} className="btn btn-light mb-4">
+          Go Back
+        </Link>
+      ) : (
+        <CarouselProduct />
+      )}
       {isLoading && <Loader width={100} height={100} />}
       {error && <Message variant="danger">{errMessage}</Message>}
       {isSuccess && (
