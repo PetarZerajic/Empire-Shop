@@ -2,6 +2,7 @@ export const Routes = {
   Home: "/",
   Login: "/login",
   Register: "/register",
+  Search: "/search?/:keyword?",
   Page: "/page?/:pageNumber?",
   Product: "/product/:id",
   Products: "/products",
