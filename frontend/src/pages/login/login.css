@@ -1,0 +1,8 @@
+.form .custom-btn {
+  background-color: #1f305e;
+  margin-top: 10px;
+  min-width: 120px;
+
+  min-height: 40px;
+  max-height: 40px;
+}
