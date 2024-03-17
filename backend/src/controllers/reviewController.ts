@@ -56,7 +56,7 @@ export const createReview = async (
       return next(new AppError(404, "No document found with that ID"));
     }
     const alreadyReviewed = product.reviews.find(
-      (review) => review.user.toString() === req.user.id.toString()
+      (review) => review.user._id.toString() === req.user.id.toString()
     );
 
     if (alreadyReviewed) {
