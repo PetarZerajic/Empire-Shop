@@ -153,3 +153,22 @@ export const updateOrderToDelivered = async (
     next(err);
   }
 };
+
+export const deleteOrder = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const order = await Order.findByIdAndDelete(req.params.id);
+    if (!order) {
+      return next(new AppError(404, "There is no document with that id"));
+    }
+    res.status(204).json({
+      status: "success",
+      data: null,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
