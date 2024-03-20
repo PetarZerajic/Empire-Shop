@@ -1,6 +1,7 @@
 import express from "express";
 import {
   addOrderItems,
+  deleteOrder,
   getAllOrders,
   getMyOrders,
   getOrder,
@@ -14,8 +15,8 @@ const router = express.Router();
 router.use(protect);
 router.route("/").get(admin, getAllOrders).post(addOrderItems);
 router.route("/myorders").get(getMyOrders);
-router.route("/:id").get(getOrder);
+router.route("/:id").get(getOrder).delete(admin, deleteOrder);
 router.route("/:id/pay").patch(updateOrderToPaid);
-router.route("/:id/deliver").patch(updateOrderToDelivered);
+router.route("/:id/deliver").patch(admin, updateOrderToDelivered);
 
 export default router;
