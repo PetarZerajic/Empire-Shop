@@ -12,26 +12,24 @@ export const CarouselProduct = () => {
     <>
       {error && <Message variant="danger"> {errMessage}</Message>}
       {isSuccess && (
-        <div>
-          <Carousel pause="hover">
-            {products.data.map((item) => (
-              <Carousel.Item key={item._id}>
-                <Link to={`/product/${item._id}`}>
-                  <Image
-                    src={`/images/products/${item.imageCover}`}
-                    alt={item.name}
-                    fluid
-                  />
-                </Link>
-                <Carousel.Caption>
-                  <h2>
-                    {item.name} (${item.price})
-                  </h2>
-                </Carousel.Caption>
-              </Carousel.Item>
-            ))}
-          </Carousel>
-        </div>
+        <Carousel pause="hover">
+          {products.data.map((item) => (
+            <Carousel.Item key={item._id}>
+              <Link to={`/product/${item._id}`}>
+                <Image
+                  src={`/images/products/${item.imageCover}`}
+                  alt={item.name}
+                  fluid
+                />
+              </Link>
+              <Carousel.Caption>
+                <h2>
+                  {item.name} (${item.price})
+                </h2>
+              </Carousel.Caption>
+            </Carousel.Item>
+          ))}
+        </Carousel>
       )}
     </>
   );
