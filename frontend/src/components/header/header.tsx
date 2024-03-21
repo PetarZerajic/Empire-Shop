@@ -1,4 +1,11 @@
-import { Navbar, Container, Nav, Badge, NavDropdown } from "react-bootstrap";
+import {
+  Navbar,
+  Container,
+  Nav,
+  Badge,
+  NavDropdown,
+  Form,
+} from "react-bootstrap";
 import { FaShoppingCart, FaUser } from "react-icons/fa";
 import { LinkContainer } from "react-router-bootstrap";
 import logo from "../../assets/logo.png";
@@ -7,14 +14,30 @@ import { RootState } from "../../redux/store/store";
 import { logout } from "../../redux/slices/authSlice";
 import { Routes } from "../../router/routes";
 import { useLogoutMutation } from "../../redux/slices/userApiSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { FaSearch } from "react-icons/fa";
+import { FormEvent, useState } from "react";
 import "./header.css";
 
 export const Header = () => {
   const { cartItems } = useSelector((state: RootState) => state.reducer.cart);
   const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { keyword: urlKeyword } = useParams();
+  const [keyword, setKeyword] = useState(urlKeyword || "");
+
+  const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (keyword.trim()) {
+      navigate(`/search/${keyword}`);
+      setKeyword("");
+    } else {
+      navigate(Routes.Home);
+    }
+  };
   const [logutApiCall] = useLogoutMutation();
   const logoutHandler = async () => {
     try {
@@ -30,14 +53,29 @@ export const Header = () => {
     <header>
       <Navbar variant="dark" expand="md" collapseOnSelect>
         <Container>
-          <LinkContainer to="/">
-            <Navbar.Brand>
-              <div>
-                <img src={logo} />
-                Empire-Shop
-              </div>
-            </Navbar.Brand>
-          </LinkContainer>
+          <Navbar.Brand>
+            <div>
+              <LinkContainer to="/">
+                <div>
+                  <img src={logo} alt="Logo" />
+                  Empire-Shop
+                </div>
+              </LinkContainer>
+              <Form className="box" onSubmit={onSubmitHandler}>
+                <input
+                  type="text"
+                  placeholder="search..."
+                  autoComplete="off"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                />
+
+                <button type="submit" className="search-btn">
+                  <FaSearch />
+                </button>
+              </Form>
+            </div>
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="Basic">
             <Nav className="ms-auto">
