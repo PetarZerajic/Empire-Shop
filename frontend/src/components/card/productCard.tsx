@@ -12,6 +12,7 @@ export const ProductCard = (props: { product: IProducts }) => {
       <Link to={`/product/${product._id}`}>
         <Card.Img
           src={`/images/products/${product.imageCover}`}
+          alt={product.name}
           variant="top"
         />
       </Link>
