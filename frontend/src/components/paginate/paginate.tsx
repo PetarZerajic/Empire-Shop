@@ -5,7 +5,7 @@ import { Routes } from "../../router/routes";
 interface IProps {
   pages: number;
   page: number;
-  role?: string;
+  role: "admin" | "user";
 }
 
 export const Paginate = (props: IProps) => {
@@ -15,7 +15,6 @@ export const Paginate = (props: IProps) => {
   for (let i = 1; i <= pages; i++) {
     pageNumbers.push(i);
   }
-
   return (
     pages > 1 && (
       <Pagination className="d-flex justify-content-center align-items-center">
