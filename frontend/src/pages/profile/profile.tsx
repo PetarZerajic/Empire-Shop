@@ -4,41 +4,49 @@ import { toast } from "react-toastify";
 import { setUserInfo } from "../../redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import {
   useProfileMutation,
   useUpdatePasswordMutation,
+  useUploadUserPhotoMutation,
 } from "../../redux/slices/userApiSlice";
-import "./profile.css";
 import { useGetMyOrdersQuery } from "../../redux/slices/orderApiSlice";
 import { Message } from "../../components/message/message";
 import { IOrder } from "../../interfaces/IOrder";
 import { FaTimes } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { MakeErrorMessage } from "../../utils/makeErrorMessage";
+import { BsUpload } from "react-icons/bs";
+import "./profile.css";
 
 export const Profile = () => {
   const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
-  const { name, email } = userInfo!.data.user;
+  const { name, email, photo } = userInfo!.data.user;
+
   const [inputValues, setInputValues] = useState({
     name: name,
     email: email,
+    photo: photo,
     passwordCurrent: "",
     password: "",
     passwordConfirm: "",
   });
 
+  const imgRef = useRef<HTMLImageElement>(null);
   const [updateProfile, { isLoading: loadingUpdateProfile }] =
     useProfileMutation();
+
   const [updatePassword, { isLoading: loadingUpdatePassword }] =
     useUpdatePasswordMutation();
+
+  const [uploadProductImage] = useUploadUserPhotoMutation();
   const { data: orders, error } = useGetMyOrdersQuery("Order");
 
   const dispatch = useDispatch();
 
   const submitHandler = async (event: FormEvent) => {
     event.preventDefault();
-    const { name, email, passwordCurrent, password, passwordConfirm } =
+    const { name, email, photo, passwordCurrent, password, passwordConfirm } =
       inputValues;
     if (password !== passwordConfirm) {
       return toast.error("Password do not match!");
@@ -56,6 +64,7 @@ export const Profile = () => {
         const response = await updateProfile({
           name,
           email,
+          photo,
         }).unwrap();
 
         dispatch(setUserInfo(response));
@@ -76,13 +85,37 @@ export const Profile = () => {
       [name]: value,
     }));
   };
+  const handleChangeImage = async (event: ChangeEvent<HTMLInputElement>) => {
+    const { files } = event.target;
+    try {
+      const formData = new FormData();
+      formData.append("image", files![0]);
+
+      const response = await uploadProductImage(formData).unwrap();
+      setInputValues({ ...inputValues, photo: response.image });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const { errMessage } = MakeErrorMessage({ error });
 
   return (
     <Row>
       <Col md={3}>
         <Form onSubmit={submitHandler}>
-          <h2>User Profile</h2>
+          <Form.Group className="d-flex justify-content-center align-items-center gap-4">
+            <img
+              ref={imgRef}
+              id="custom-profile-img"
+              src={`/images/users/${inputValues.photo}`}
+              alt={inputValues.name}
+            />
+            <Form.Label htmlFor="file" id="file-label">
+              <BsUpload />
+            </Form.Label>
+            <Form.Control type="file" id="file" onChange={handleChangeImage} />
+          </Form.Group>
           <Form.Group className="my-2">
             <Form.Label>Name</Form.Label>
             <Form.Control
@@ -105,8 +138,9 @@ export const Profile = () => {
               autoComplete="off"
             />
           </Form.Group>
+
           <Form.Group className="my-2">
-            <Form.Label>Current Password</Form.Label>
+            <Form.Label c>Current Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Enter new password"
@@ -138,7 +172,8 @@ export const Profile = () => {
               autoComplete="off"
             />
           </Form.Group>
-          <Button type="submit">
+
+          <Button type="submit" id="custom-btn">
             {loadingUpdateProfile || loadingUpdatePassword ? (
               <Loader width={30} height={30} />
             ) : (
