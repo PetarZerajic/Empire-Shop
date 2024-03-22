@@ -26,7 +26,7 @@ export const ProductList = () => {
     isSuccess,
     error,
     refetch,
-  } = useGetProductsQuery(pageNumber);
+  } = useGetProductsQuery({ pageNumber });
 
   const [createProduct, { isLoading: createLoading }] =
     useCreateProductMutation();
@@ -193,7 +193,7 @@ export const ProductList = () => {
                         className="btn-sm mx-2"
                         onClick={() => deleteItemHandler(item._id)}
                       >
-                        <FaTrash style={{ color: "maroon" }} />
+                        <FaTrash id="trash" />
                       </Button>
                     </OverlayTrigger>
                   </td>
