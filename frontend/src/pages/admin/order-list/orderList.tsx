@@ -1,15 +1,44 @@
 import { Button, Table } from "react-bootstrap";
 import { Loader } from "../../../components/loader/loader";
 import { Message } from "../../../components/message/message";
-import { useGetOrdersQuery } from "../../../redux/slices/orderApiSlice";
+import {
+  useDeleteOrderMutation,
+  useGetOrdersQuery,
+} from "../../../redux/slices/orderApiSlice";
 import { MakeErrorMessage } from "../../../utils/makeErrorMessage";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./orderList.css";
 
 export const OrderList = () => {
-  const { data: orders, isLoading, isSuccess, error } = useGetOrdersQuery();
+  const {
+    data: orders,
+    refetch,
+    isLoading,
+    isSuccess,
+    error,
+  } = useGetOrdersQuery();
+
+  const [deleteOrder] = useDeleteOrderMutation();
+
+  const deleteOrderHandler = async (_id: string) => {
+    try {
+      console.log(_id);
+      if (confirm("Are you sure?")) {
+        await deleteOrder(_id).unwrap();
+        refetch();
+        toast.success("Successfully deleted");
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      toast.error(err.data.message || err.error);
+    }
+  };
+
   const { errMessage } = MakeErrorMessage({ error });
+
   return (
     <>
       <h1>Orders</h1>
@@ -55,6 +84,13 @@ export const OrderList = () => {
                       Details
                     </Button>
                   </Link>
+                  <Button
+                    variant="light"
+                    className="btn-sm mx-2"
+                    onClick={() => deleteOrderHandler(order._id)}
+                  >
+                    <FaTrash id="trash" />
+                  </Button>
                 </td>
               </tr>
             ))}
