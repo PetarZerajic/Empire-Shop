@@ -24,7 +24,6 @@ export const OrderList = () => {
 
   const deleteOrderHandler = async (_id: string) => {
     try {
-      console.log(_id);
       if (confirm("Are you sure?")) {
         await deleteOrder(_id).unwrap();
         refetch();
