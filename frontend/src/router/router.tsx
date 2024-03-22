@@ -26,7 +26,11 @@ export const Router = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path={Routes.Home} element={<App />}>
-        <Route index={true} path={Routes.Page} element={<Home />} />
+        <Route
+          index={true}
+          path={Routes.Search + Routes.Page}
+          element={<Home />}
+        />
 
         <Route path={Routes.Product} element={<Product />} />
         <Route path={Routes.Cart} element={<Cart />} />
@@ -55,7 +59,7 @@ export const Router = () => {
         />
 
         <Route
-          path={`${Routes.AdminProductList}${Routes.Page}`}
+          path={Routes.AdminProductList + Routes.Page}
           element={<AdminRoute Component={ProductList} />}
         />
 
