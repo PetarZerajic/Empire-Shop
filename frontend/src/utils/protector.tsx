@@ -12,7 +12,7 @@ export const Protector = ({ Component }: IProps) => {
   const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
 
   if (!userInfo) {
-    return <Navigate to={Routes.LOGIN} replace />;
+    return <Navigate to={Routes.Login} replace />;
   }
   return <Component />;
 };
