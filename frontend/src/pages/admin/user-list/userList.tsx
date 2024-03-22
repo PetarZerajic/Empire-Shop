@@ -162,7 +162,7 @@ export const UserList = () => {
                       className="btn-sm mx-2"
                       onClick={() => deleteItemHandler(user._id)}
                     >
-                      <FaTrash style={{ color: "maroon" }} />
+                      <FaTrash id="trash" />
                     </Button>
                   </OverlayTrigger>
                 </td>
