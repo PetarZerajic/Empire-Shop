@@ -37,6 +37,12 @@ const orderSlice = apiSlice.injectEndpoints({
         body: data,
       }),
     }),
+    deleteOrder: build.mutation({
+      query: (id) => ({
+        url: `${ORDERS_URL}/${id}`,
+        method: "DELETE",
+      }),
+    }),
     payOrder: build.mutation({
       query: ({ id, details }) => ({
         url: `${ORDERS_URL}/${id}/pay `,
@@ -58,6 +64,7 @@ export const {
   useGetOrdersQuery,
   useGetOneOrderQuery,
   useCreateOrderMutation,
+  useDeleteOrderMutation,
   usePayOrderMutation,
   useGetPayPalClientIdQuery,
   useGetMyOrdersQuery,
