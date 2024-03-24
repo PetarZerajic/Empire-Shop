@@ -1,16 +1,16 @@
 import { Pagination } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-import { Routes } from "../../router/routes";
 
 interface IProps {
   pages: number;
   page: number;
+  keyword: string | undefined
   role: "admin" | "user";
 }
 
 export const Paginate = (props: IProps) => {
-  const { pages, page, role } = props;
-  const pageNumbers = [];
+  const { pages, page,role,keyword } = props;
+  const pageNumbers:number[] = [];
 
   for (let i = 1; i <= pages; i++) {
     pageNumbers.push(i);
@@ -19,12 +19,11 @@ export const Paginate = (props: IProps) => {
     pages > 1 && (
       <Pagination className="d-flex justify-content-center align-items-center">
         {pageNumbers.map((number) => (
-          <LinkContainer
+        <LinkContainer
             key={number}
             to={
-              role === "admin"
-                ? `${Routes.AdminProductList}/page/${number}`
-                : `/page/${number}`
+              role === "admin" ? `/admin/productlist/page/${number}`:
+              role==="user" && keyword ? `/search/${keyword}/page/${number}` : `/page/${number}`
             }
           >
             <Pagination.Item active={number === page}>{number}</Pagination.Item>
