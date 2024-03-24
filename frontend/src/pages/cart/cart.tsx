@@ -113,6 +113,7 @@ export const Cart = () => {
             <ListGroup.Item className="mt-2">
               <Button
                 type="button"
+                id="custom-btn"
                 className="button"
                 disabled={cartItems.length === 0}
                 onClick={checkoutHandler}
