@@ -110,6 +110,7 @@ export const updateUserProfile = async (
       {
         name: req.body.name,
         email: req.body.email,
+        photo: req.body.photo,
       },
       {
         new: true,
