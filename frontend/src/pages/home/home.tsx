@@ -40,7 +40,7 @@ export const Home = () => {
               </Col>
             ))}
           </Row>
-          <Paginate pages={products.pages} page={products.page} />
+          <Paginate pages={products.pages} page={products.page} role="user" />
         </>
       )}
     </>
