@@ -4,10 +4,7 @@ import { IProducts } from "../../interfaces/IProducts";
 
 export const productsApiSlice = apiSlice.injectEndpoints({
   endpoints: (build) => ({
-    getProducts: build.query<
-      { data: IProducts[]; pages: number; page: number },
-      string | unknown
-    >({
+    getProducts: build.query<{ data: IProducts[]; pages: number; page: number }, string | unknown>({
       query: ({ keyword, pageNumber }) => ({
         url: PRODUCTS_URL,
         params: { keyword, pageNumber },
