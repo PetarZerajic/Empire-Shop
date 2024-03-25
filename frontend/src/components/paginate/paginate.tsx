@@ -4,8 +4,8 @@ import { LinkContainer } from "react-router-bootstrap";
 interface IProps {
   pages: number;
   page: number;
-  keyword: string | undefined
-  role: "admin" | "user";
+  keyword?: string | undefined
+  role?: "admin" | "user";
 }
 
 export const Paginate = (props: IProps) => {
