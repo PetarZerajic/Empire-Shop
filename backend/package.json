@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Empire Shop is e-commerce aplication built with the MERN stack ",
   "scripts": {
-    "start": "nodemon src/server.ts",
+    "build":"tsc",
+    "dev":"nodemon src/server.ts",
+    "start": "node ./dist/src/server.js",
     "data:import": "npx ts-node src/data/import-data.ts --import",
     "data:delete": "npx ts-node src/data/import-data.ts --delete"
   },
