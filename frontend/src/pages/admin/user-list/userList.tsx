@@ -20,6 +20,7 @@ import { IUsers } from "../../../interfaces/IUsers";
 import { ChangeEvent, useState } from "react";
 import { toast } from "react-toastify";
 import "./userList.css";
+import { Meta } from "../../../components/meta/meta";
 
 export const UserList = () => {
   const {
@@ -97,6 +98,7 @@ export const UserList = () => {
 
   return (
     <>
+    <Meta title="Users"/>
       <Row className="align-items-center">
         <Col>
           <h1>Users</h1>
