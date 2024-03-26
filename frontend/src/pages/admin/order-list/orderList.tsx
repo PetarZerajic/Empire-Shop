@@ -10,6 +10,7 @@ import { FaTimes, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./orderList.css";
+import { Meta } from "../../../components/meta/meta";
 
 export const OrderList = () => {
   const {
@@ -40,6 +41,7 @@ export const OrderList = () => {
 
   return (
     <>
+    <Meta title="Orders"/>
       <h1>Orders</h1>
       {isLoading && <Loader width={100} height={100} />}
       {error && <Message variant="danger">{errMessage}</Message>}
