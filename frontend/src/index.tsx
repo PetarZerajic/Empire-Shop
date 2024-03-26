@@ -7,7 +7,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { PersistGate } from "redux-persist/integration/react";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { HelmetProvider } from "react-helmet-async";
+import.meta.env.VITE_PAYPAL_CLIENT_ID
 
+const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -16,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <PersistGate loading={null} persistor={persistor}>
         <PayPalScriptProvider
           deferLoading={true}
-          options={{ clientId: "test" }}
+          options={{ clientId }}
         >
           <Router />
         </PayPalScriptProvider>
