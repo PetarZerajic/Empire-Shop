@@ -17,6 +17,7 @@ import Tooltip from "react-bootstrap/Tooltip";
 import { Paginate } from "../../../components/paginate/paginate";
 import { Link, useParams } from "react-router-dom";
 import { Message } from "../../../components/message/message";
+import { Meta } from "../../../components/meta/meta";
 
 export const ProductList = () => {
   const { pageNumber } = useParams();
@@ -122,6 +123,7 @@ export const ProductList = () => {
   };
   return (
     <>
+    <Meta title="Products"/>
       <Row className="align-items-center">
         <Col>
           <h1>Products</h1>
@@ -201,8 +203,7 @@ export const ProductList = () => {
               ))}
             </tbody>
           </Table>
-
-          <Paginate pages={products.pages} page={products.page} role="admin" />
+          <Paginate pages={products.pages} page={products.page} />
         </>
       )}
     </>
