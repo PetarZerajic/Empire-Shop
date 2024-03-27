@@ -56,3 +56,12 @@
     left: -15px;
   }
 }
+
+@media screen and (max-width:750px) {
+  .navbar-brand .box {
+    display: none;
+  }
+  .nav-item .dropdown-menu {
+    max-width: 250px;
+  }
+}
