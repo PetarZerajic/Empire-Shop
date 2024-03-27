@@ -50,7 +50,7 @@ export const Header = () => {
     }
   };
   return (
-    <header>
+    <>
       <Navbar variant="dark" expand="md" collapseOnSelect>
         <Container>
           <Navbar.Brand>
@@ -76,8 +76,8 @@ export const Header = () => {
               </Form>
             </div>
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="Basic">
+          <Navbar.Toggle/>
+          <Navbar.Collapse >
             <Nav className="ms-auto">
               <LinkContainer to="/cart">
                 <Nav.Link>
@@ -120,6 +120,6 @@ export const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </header>
+    </>
   );
 };
