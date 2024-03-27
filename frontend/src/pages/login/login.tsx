@@ -9,7 +9,7 @@ import { RootState } from "../../redux/store/store";
 import { toast } from "react-toastify";
 import { setUserInfo } from "../../redux/slices/authSlice";
 import { Loader } from "../../components/loader/loader";
-
+import "./login.css";
 export const Login = () => {
   const [inputValues, setInputValues] = useState({ email: "", password: "" });
 
@@ -49,7 +49,7 @@ export const Login = () => {
   return (
     <FormContainer>
       <h1>Log In</h1>
-      <Form onSubmit={onSubmitHandler}>
+      <Form onSubmit={onSubmitHandler} className="form">
         <Form.Group className="my-3">
           <Form.Label>Email Address</Form.Label>
           <Form.Control
@@ -74,13 +74,13 @@ export const Login = () => {
             required
           />
         </Form.Group>
-        <Button type="submit" className="mt-2" disabled={isLoading}>
+        <Button type="submit" id="custom-btn" disabled={isLoading}>
           {isLoading ? <Loader width={30} height={30} /> : "Log In"}
         </Button>
       </Form>
       <Row className="py-3">
         <Col>
-          Not have an account ?
+          Not have an account ? {""}
           <Link
             to={
               redirect.startsWith("/shipping")
