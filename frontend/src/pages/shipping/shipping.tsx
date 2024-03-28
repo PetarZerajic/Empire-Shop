@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { RootState } from "../../redux/store/store";
 import { CheckoutSteps } from "../../components/checkout-steps/checkoutSteps";
 import { Routes } from "../../router/routes";
+import { validationMessages } from "../../utils/validationMessage";
 
 export const Shipping = () => {
   const { shippingAddress } = useSelector(
@@ -37,12 +38,6 @@ export const Shipping = () => {
       ...prevState,
       [name]: value,
     }));
-    const validationMessages: { [key: string]: string } = {
-      address: "Address cannot be left blank!",
-      city: "City cannot be left blank!",
-      postalCode: "Postal Code cannot be left blank!",
-      country: "Country cannot be left blank!",
-    };
 
     const errorMessage = value.trim() === "" ? validationMessages[name] : "";
     event.target.setCustomValidity(errorMessage);
