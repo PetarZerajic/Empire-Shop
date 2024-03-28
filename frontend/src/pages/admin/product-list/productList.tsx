@@ -203,7 +203,7 @@ export const ProductList = () => {
               ))}
             </tbody>
           </Table>
-          <Paginate pages={products.pages} page={products.page} />
+          <Paginate pages={products.pages} page={products.page} role="admin" />
         </>
       )}
     </>
