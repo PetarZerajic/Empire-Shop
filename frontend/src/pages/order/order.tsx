@@ -1,9 +1,9 @@
-import { Link, useParams } from "react-router-dom";
-import { Row, Col, ListGroup, Image, Card, Button } from "react-bootstrap";
+import { useParams } from "react-router-dom";
+import { Row, Col, ListGroup } from "react-bootstrap";
 import { Message } from "../../components/message/message";
 import { Loader } from "../../components/loader/loader";
 import { IOrder } from "../../interfaces/IOrder";
-import { PayPalButtons, usePayPalScriptReducer } from "@paypal/react-paypal-js";
+import { usePayPalScriptReducer } from "@paypal/react-paypal-js";
 import {
   OnApproveActions,
   OnApproveData,
@@ -21,6 +21,10 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { MakeErrorMessage } from "../../utils/makeErrorMessage";
+import { OrderShipping } from "./orderShipping";
+import { OrderPaymentMethod } from "./orderPaymentMethod";
+import { OrderItems } from "./orderItems";
+import { OrderSummary } from "./orderSummary";
 
 export const Order = () => {
   const { id } = useParams();
@@ -123,133 +127,26 @@ export const Order = () => {
       {isLoading && <Loader width={100} height={100} />}
       {error && <Message variant="danger">{errMessage}</Message>}
       {isSuccess && (
-        <>
-          <Row>
-            <Col md={8}>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  <h2>Shipping</h2>
-                  <p>
-                    <strong>Name: </strong>
-                    {orderDetails.user.name}
-                  </p>
-                  <p>
-                    <strong>Email: </strong> {orderDetails.user.email}
-                  </p>
-                  <p>
-                    <strong>Address: </strong>
-                    {orderDetails.shippingAddress.address},
-                    {orderDetails.shippingAddress.city},
-                    {orderDetails.shippingAddress.postalCode},
-                    {orderDetails.shippingAddress.country}
-                  </p>
-                  {orderDetails.isDelivered ? (
-                    <Message variant="success">
-                      Delivered on : {orderDetails.deliveredAt}
-                    </Message>
-                  ) : (
-                    <Message variant="info">Not delivered</Message>
-                  )}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <h2>Payment method</h2>
-                  <p>
-                    <strong>Method: </strong> {orderDetails.paymentMethod}
-                  </p>
-                  {orderDetails.isPaid ? (
-                    <Message variant="success">
-                      Paid on {orderDetails.paidAt}
-                    </Message>
-                  ) : (
-                    <Message variant="info">Not Paid </Message>
-                  )}
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <h2>Order Items</h2>
-                  {orderDetails.orderItems.map((item) => (
-                    <ListGroup.Item key={item._id}>
-                      <Row>
-                        <Col md={1}>
-                          <Image
-                            src={`/images/products/${item.imageCover}`}
-                            alt={item.name}
-                            fluid
-                            rounded
-                          />
-                        </Col>
-                        <Col>
-                          <Link to={`/product/${item._id}`}>{item.name}</Link>
-                        </Col>
-                        <Col md={4}>
-                          {item.quantity} x ${item.price} = $
-                          {item.quantity * item.price}
-                        </Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup.Item>
-              </ListGroup>
-            </Col>
-            <Col md={4}>
-              <Card>
-                <ListGroup variant="flush">
-                  <ListGroup.Item>
-                    <h2>Order Summary</h2>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Items</Col>
-                      <Col>${orderDetails.itemsPrice}</Col>
-                    </Row>
-                    <Row>
-                      <Col>Shipping</Col>
-                      <Col>${orderDetails.shippingPrice}</Col>
-                    </Row>
-                    <Row>
-                      <Col>Tax</Col>
-                      <Col>${orderDetails.taxPrice}</Col>
-                    </Row>
-                    <Row>
-                      <Col>Total</Col>
-                      <Col>${orderDetails.totalPrice}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  {!orderDetails.isPaid && (
-                    <ListGroup.Item>
-                      {loadingPay && <Loader width={30} height={30} />}
-                      {isPending ? (
-                        <Loader width={30} height={30} />
-                      ) : (
-                        <>
-                          <PayPalButtons
-                            onApprove={onApprove}
-                            createOrder={createOrder}
-                            onError={onError}
-                          />
-                        </>
-                      )}
-                    </ListGroup.Item>
-                  )}
-
-                  {userInfo &&
-                    userInfo.data.user.role === "admin" &&
-                    orderDetails.isPaid &&
-                    !orderDetails.isDelivered && (
-                      <ListGroup.Item>
-                        <Button type="button" onClick={handleDeliverOrder}>
-                          {loadingDeliver ? (
-                            <Loader width={30} height={30} />
-                          ) : (
-                            "Mark as delivered"
-                          )}
-                        </Button>
-                      </ListGroup.Item>
-                    )}
-                </ListGroup>
-              </Card>
-            </Col>
-          </Row>
-        </>
+        <Row>
+          <Col md={8}>
+            <ListGroup variant="flush">
+              <ListGroup.Item>
+                <OrderShipping orderDetails={orderDetails} />
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <OrderPaymentMethod orderDetails={orderDetails} />
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <OrderItems orderDetails={orderDetails} />
+              </ListGroup.Item>
+            </ListGroup>
+          </Col>
+          <Col md={4}>
+            <OrderSummary orderDetails={orderDetails} userInfo={userInfo} loadingPay={loadingPay} loadingDeliver={loadingDeliver}
+              isPending={isPending} onApprove={onApprove} createOrder={createOrder} handleDeliverOrder={handleDeliverOrder} onError={onError}
+            />
+          </Col>
+        </Row>
       )}
     </>
   );
