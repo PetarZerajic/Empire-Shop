@@ -2,7 +2,7 @@
 
 Empire-Shop is E-Commerce platform built with the MERN stack & Redux.
 
-https://github.com/PetarZerajic/Empire-Shop/assets/116806174/78f09e94-ae61-428d-9fa9-a1a1ddc8ac60
+https://github.com/PetarZerajic/Empire-Shop/assets/116806174/c0506465-c780-4654-ac73-f9b6ebd6b04c
 
 ## Features
 
