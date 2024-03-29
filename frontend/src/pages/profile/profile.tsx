@@ -1,5 +1,4 @@
-import { Button, Row, Col, Form, Table } from "react-bootstrap";
-import { Loader } from "../../components/loader/loader";
+import { Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { setUserInfo } from "../../redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,19 +10,17 @@ import {
   useUploadUserPhotoMutation,
 } from "../../redux/slices/userApiSlice";
 import { useGetMyOrdersQuery } from "../../redux/slices/orderApiSlice";
-import { Message } from "../../components/message/message";
-import { IOrder } from "../../interfaces/IOrder";
-import { FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
 import { MakeErrorMessage } from "../../utils/makeErrorMessage";
-import { BsUpload } from "react-icons/bs";
+import { ProfileForm } from "./profileForm";
+import { ProfileMyOrders } from "./profileMyOrders";
+import { IUserProfile } from "../../interfaces/IUsers";
 import "./profile.css";
 
 export const Profile = () => {
   const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
   const { name, email, photo } = userInfo!.data.user;
 
-  const [inputValues, setInputValues] = useState({
+  const [inputValues, setInputValues] = useState<IUserProfile>({
     name: name,
     email: email,
     photo: photo,
@@ -40,7 +37,7 @@ export const Profile = () => {
     useUpdatePasswordMutation();
 
   const [uploadProductImage] = useUploadUserPhotoMutation();
-  const { data: orders, error } = useGetMyOrdersQuery("Order");
+  const { data: orders, error } = useGetMyOrdersQuery();
 
   const dispatch = useDispatch();
 
@@ -103,128 +100,22 @@ export const Profile = () => {
   return (
     <Row>
       <Col md={3}>
-        <Form onSubmit={submitHandler}>
-          <Form.Group className="d-flex justify-content-center align-items-center gap-4">
-            <img
-              ref={imgRef}
-              id="custom-profile-img"
-              src={`/images/users/${inputValues.photo}`}
-              alt={inputValues.name}
-            />
-            <Form.Label htmlFor="file" id="file-label">
-              <BsUpload />
-            </Form.Label>
-            <Form.Control type="file" id="file" onChange={handleChangeImage} />
-          </Form.Group>
-          <Form.Group className="my-2">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Enter name"
-              name="name"
-              value={inputValues.name}
-              onChange={onChangeHandler}
-              autoComplete="off"
-            />
-          </Form.Group>
-          <Form.Group className="my-2">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              name="email"
-              value={inputValues.email}
-              onChange={onChangeHandler}
-              autoComplete="off"
-            />
-          </Form.Group>
-
-          <Form.Group className="my-2">
-            <Form.Label c>Current Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter new password"
-              name="passwordCurrent"
-              value={inputValues.passwordCurrent}
-              onChange={onChangeHandler}
-              autoComplete="off"
-            />
-          </Form.Group>
-          <Form.Group className="my-2">
-            <Form.Label>New Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter password"
-              name="password"
-              value={inputValues.password}
-              onChange={onChangeHandler}
-              autoComplete="off"
-            />
-          </Form.Group>
-          <Form.Group className="my-2">
-            <Form.Label>Password Confirm</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Confirm password"
-              name="passwordConfirm"
-              value={inputValues.passwordConfirm}
-              onChange={onChangeHandler}
-              autoComplete="off"
-            />
-          </Form.Group>
-
-          <Button type="submit" id="custom-btn">
-            {loadingUpdateProfile || loadingUpdatePassword ? (
-              <Loader width={30} height={30} />
-            ) : (
-              "Update"
-            )}
-          </Button>
-        </Form>
+        <ProfileForm
+          submitHandler={submitHandler}
+          imgRef={imgRef}
+          inputValues={inputValues}
+          loadingUpdateProfile={loadingUpdateProfile}
+          loadingUpdatePassword={loadingUpdatePassword}
+          handleChangeImage={handleChangeImage}
+          onChangeHandler={onChangeHandler}
+        />
       </Col>
       <Col md={9}>
-        <h2>My Orders</h2>
-        {error && <Message variant="danger">{errMessage}</Message>}
-        <Table striped hover responsive className="table-sm">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>DATE</th>
-              <th>TOTAL</th>
-              <th>PAID</th>
-              <th>DELIVERED</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders?.data.map((order: IOrder) => (
-              <tr key={order._id}>
-                <td>{order._id}</td>
-                <td>{order.createdAt.substring(0, 10)}</td>
-                <td>${order.totalPrice}</td>
-                <td>{order.paidAt?.substring(0, 10)}</td>
-                <td>
-                  {order.deliveredAt ? (
-                    order.deliveredAt.substring(0, 10)
-                  ) : (
-                    <FaTimes
-                      style={{
-                        color: "red",
-                      }}
-                    />
-                  )}
-                </td>
-                <td>
-                  <Link to={`/order/${order._id}`}>
-                    <Button className="btn-sm" variant="light">
-                      Details
-                    </Button>
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <ProfileMyOrders
+          error={error}
+          errMessage={errMessage}
+          orders={orders}
+        />
       </Col>
     </Row>
   );
