@@ -8,6 +8,14 @@ export interface IUsers {
   password?: string;
   passwordConfirm?: string;
 }
+export interface IUserProfile {
+  name: string;
+  email: string;
+  photo: string;
+  password: string;
+  passwordCurrent: string;
+  passwordConfirm: string;
+}
 export interface IUserInfo {
   data: {
     user: IUsers;
