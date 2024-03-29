@@ -55,24 +55,21 @@ export const Product = () => {
     }));
   };
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = event.target;
+    const { value,name,type } = event.target;
+    const valueType = type === "select-one" ? +value : value
     setInputValues((prevState) => ({
       ...prevState,
-      [name]: value,
+      [name]: valueType,
     }));
   };
   const handleOnSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      await createReview({
-        id,
-        data: {
-          ...inputValues,
-        },
-      }).unwrap();
+      await createReview({ id, data: {...inputValues,}}).unwrap();
       refetch();
       toast.success("Review submitted");
       setInputValues({ ...inputValues, rating: 0, comment: "" });
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       toast.error(err.data.message || err.data.error);
