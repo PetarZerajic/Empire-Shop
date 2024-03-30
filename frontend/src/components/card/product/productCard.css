@@ -1,0 +1,17 @@
+.card-body a {
+  text-decoration: none;
+}
+.card-title {
+  height: 2.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+}
+.card-title strong,
+.card-text {
+  color: gray;
+}
+.card-text {
+  margin-bottom: 5px;
+}
