@@ -1,7 +1,7 @@
 import { ModalContainer } from '../../container/modalContainer'
 import { IUsers } from '../../../interfaces/IUsers';
 import { ChangeEvent } from 'react';
-import { UserForm } from '../../forms/create/user/userForm';
+import { UserForm } from '../../forms/create-update/user/userForm';
 
 interface IProps {
     show:boolean
