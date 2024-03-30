@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import { IProducts } from "../../../interfaces/IProducts";
 import { ModalContainer } from "../../container/modalContainer";
-import { ProductForm } from "../../forms/create/product/productForm";
+import { ProductForm } from "../../forms/create-update/product/productForm";
 
 interface IProps {
     show:boolean
