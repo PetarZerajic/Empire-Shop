@@ -1,10 +1,6 @@
 import { Helmet } from "react-helmet-async";
 
-interface IProps {
-  title: string;
-}
-
-export const Meta = ({title}: IProps) => {
+export const Meta = ({title}: {title:string}) => {
   return (
     <Helmet>
       <title>{title}</title>
