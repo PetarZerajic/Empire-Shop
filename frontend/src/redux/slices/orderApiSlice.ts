@@ -8,27 +8,23 @@ const orderSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: ORDERS_URL,
       }),
-      keepUnusedDataFor: 5,
     }),
 
-    getOneOrder: build.query({
+    getOneOrder: build.query<{ data: { order: IOrder } }, string | undefined>({
       query: (id) => ({
         url: `${ORDERS_URL}/${id}`,
       }),
-      keepUnusedDataFor: 5,
     }),
 
-    getMyOrders: build.query({
+    getMyOrders: build.query<{ data: IOrder[] }, void>({
       query: () => ({
         url: `${ORDERS_URL}/myorders`,
       }),
-      keepUnusedDataFor: 5,
     }),
     getPayPalClientId: build.query<{ clientId: string }, void>({
       query: () => ({
         url: PAYPAL_URL,
       }),
-      keepUnusedDataFor: 5,
     }),
     createOrder: build.mutation({
       query: (data) => ({
