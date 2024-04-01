@@ -15,7 +15,6 @@ export const productsApiSlice = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `${PRODUCTS_URL}/${id}`,
       }),
-      keepUnusedDataFor: 5,
     }),
     getTopProducts: build.query<{ data: IProducts[] }, void>({
       query: () => ({

@@ -28,7 +28,6 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: USER_URL,
       }),
-      keepUnusedDataFor: 5,
     }),
     profile: build.mutation({
       query: (data) => ({
