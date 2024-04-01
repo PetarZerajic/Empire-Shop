@@ -24,7 +24,7 @@ const initialState: cartSlice = {
   taxPrice: 0,
   totalPrice: 0,
   shippingAddress: { address: "", city: "", postalCode: "", country: "" },
-  paymentMethod: "PayPal",
+  paymentMethod: "",
 };
 
 const cartSlice = createSlice({
