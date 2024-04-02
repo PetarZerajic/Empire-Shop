@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { Order } from "../models/orderModel";
 import { AppError } from "../utils/appError";
+import { Product } from "../models/productModel";
 
 export const getAllOrders = async (
   req: Request,
@@ -67,15 +68,7 @@ export const addOrderItems = async (
   res: Response,
   next: NextFunction
 ) => {
-  const {
-    orderItems,
-    shippingAddress,
-    paymentMethod,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-  } = req.body;
+  const {orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice,shippingPrice, totalPrice} = req.body;
 
   if (!orderItems || orderItems.length === 0) {
     return next(new AppError(404, "No items"));
@@ -83,8 +76,8 @@ export const addOrderItems = async (
 
   const order = await Order.create({
     orderItems: orderItems.map((item: any) => ({
-      ...item,
       _id: item._id,
+      ...item,
     })),
     user: req.user.id,
     shippingAddress,
@@ -101,15 +94,27 @@ export const addOrderItems = async (
   });
 };
 
-export const updateOrderToPaid = async (
+export const payOrderItemsAndUpdateStock = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const order = await Order.findById(req.params.id);
+
     if (!order) {
       return next(new AppError(404, "Order  not found"));
+    }
+
+    for (const orderProduct of order.orderItems) {
+      const product = await Product.findById(orderProduct._id);
+      if (!product) {
+        return next(new AppError(404, "Product not found"));
+      }
+ 
+    product.countInStock -= orderProduct.quantity;
+
+    await product.save()
     }
     order.isPaid = true;
     order.paidAt = new Date();
@@ -117,7 +122,6 @@ export const updateOrderToPaid = async (
       id: req.body.id,
       status: req.body.status,
       update_time: req.body.update_time,
-      email_address: req.body.email_address,
     };
 
     const updatedOrder = await order.save();
@@ -128,7 +132,8 @@ export const updateOrderToPaid = async (
   } catch (err) {
     next(err);
   }
-};
+  
+  }
 
 export const updateOrderToDelivered = async (
   req: Request,
