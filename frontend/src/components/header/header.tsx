@@ -22,12 +22,13 @@ import "./header.css";
 export const Header = () => {
   const { cartItems } = useSelector((state: RootState) => state.reducer.cart);
   const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
+  const { keyword: urlKeyword } = useParams();
+  const [keyword, setKeyword] = useState(urlKeyword || "");
+  const [logutApiCall] = useLogoutMutation();
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { keyword: urlKeyword } = useParams();
-  const [keyword, setKeyword] = useState(urlKeyword || "");
 
   const onSubmitHandler = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -38,7 +39,6 @@ export const Header = () => {
       navigate(Routes.Home);
     }
   };
-  const [logutApiCall] = useLogoutMutation();
   const logoutHandler = async () => {
     try {
       await logutApiCall().unwrap();
@@ -79,7 +79,7 @@ export const Header = () => {
           <Navbar.Toggle/>
           <Navbar.Collapse >
             <Nav className="ms-auto">
-              <LinkContainer to="/cart">
+              <LinkContainer to={Routes.Cart}>
                 <Nav.Link>
                   <FaShoppingCart /> Cart
                   {cartItems.length > 0 && (
