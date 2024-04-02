@@ -6,7 +6,7 @@ import {
   getMyOrders,
   getOrder,
   updateOrderToDelivered,
-  updateOrderToPaid,
+  payOrderItemsAndUpdateStock,
 } from "../controllers/orderController";
 import { admin, protect } from "../controllers/authController";
 
@@ -16,7 +16,7 @@ router.use(protect);
 router.route("/").get(admin, getAllOrders).post(addOrderItems);
 router.route("/myorders").get(getMyOrders);
 router.route("/:id").get(getOrder).delete(admin, deleteOrder);
-router.route("/:id/pay").patch(updateOrderToPaid);
+router.route("/:id/pay").patch(payOrderItemsAndUpdateStock);
 router.route("/:id/deliver").patch(admin, updateOrderToDelivered);
 
 export default router;
