@@ -5,7 +5,7 @@ import { ProductForm } from "../../forms/create-update/product/productForm";
 
 interface IProps {
     show:boolean
-    productValues: IProducts;
+    inputValues: IProducts;
     isloading: boolean;
     handleChange(event: ChangeEvent): void;
     handleChangeImage(event: ChangeEvent): void;
@@ -15,11 +15,11 @@ interface IProps {
 }
   
 export const ProductModal = (props:IProps) => {
-    const {show,productValues, isloading, handleChange, handleChangeImage, handleCloseForm, handleCreateProduct, handleEditProduct,} = props;
+    const {show,inputValues, isloading, handleChange, handleChangeImage, handleCloseForm, handleCreateProduct, handleEditProduct,} = props;
     return (
       
       <ModalContainer show={show} handleCloseForm={handleCloseForm}>
-        <ProductForm productValues={productValues} isloading={isloading} handleChange={handleChange} 
+        <ProductForm inputValues={inputValues} isloading={isloading} handleChange={handleChange} 
           handleChangeImage={handleChangeImage} handleCloseForm={handleCloseForm} handleCreateProduct={handleCreateProduct} 
           handleEditProduct={handleEditProduct }/>
       </ModalContainer>

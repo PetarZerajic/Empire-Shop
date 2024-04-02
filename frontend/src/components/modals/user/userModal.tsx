@@ -5,7 +5,7 @@ import { UserForm } from '../../forms/create-update/user/userForm';
 
 interface IProps {
     show:boolean
-    userValues: IUsers;
+    inputValues: IUsers;
     isloading: boolean;
     handleChange(event: ChangeEvent): void;
     handleChangeImage(event: ChangeEvent): void;
@@ -13,12 +13,12 @@ interface IProps {
     handleEditUser(id: string): void;
 }
 export const UserModal = (props:IProps) => {
-    const {show,userValues, isloading, handleChange, handleChangeImage, handleCloseForm, handleEditUser,} = props;
+    const {show, inputValues, isloading, handleChange, handleChangeImage, handleCloseForm, handleEditUser,} = props;
       
     return (
       <ModalContainer show={show} handleCloseForm={handleCloseForm} >
-        <UserForm userValues={userValues} isloading={isloading} handleChange={handleChange} handleChangeImage={handleChangeImage}
-        handleCloseForm={handleCloseForm} handleEditUser={handleEditUser}/>
+        <UserForm inputValues={inputValues} isloading={isloading} handleChange={handleChange} handleChangeImage={handleChangeImage}
+           handleCloseForm={handleCloseForm} handleEditUser={handleEditUser}/>
       </ModalContainer>
     )
 }
