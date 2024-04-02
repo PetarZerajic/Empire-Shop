@@ -16,8 +16,9 @@
   height: 20px;
 }
 .rounded-pill {
-  position: relative;
-  top: -10px;
+  position: absolute;
+  top: 5px;
+  margin-left: -5px;
 }
 .navbar-brand .box {
   height: 30px;
@@ -45,23 +46,18 @@
   font-size: 18px;
 }
 @media screen and (max-width: 767px) {
-  .ms-auto .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-
-  .rounded-pill {
-    position: relative;
-    left: -15px;
-  }
-}
-
-@media screen and (max-width:750px) {
-  .navbar-brand .box {
+  .ms-auto .nav-link svg, .navbar-brand .box {
     display: none;
   }
+  .navbar-collapse {
+    margin-left: 28px;
+    }
+  .rounded-pill {
+    position: relative;
+    top: -20px;
+    left: 8px;
+  }
   .nav-item .dropdown-menu {
-    max-width: 250px;
+    max-width: 150px;
   }
 }
