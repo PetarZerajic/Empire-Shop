@@ -5,7 +5,7 @@ import { Loader } from "../../../loader/loader";
 import "./productForm.css"
 
 interface IProps {
-    productValues: IProducts;
+    inputValues: IProducts;
     isloading: boolean;
     handleChange(event: ChangeEvent): void;
     handleChangeImage(event: ChangeEvent): void;
@@ -14,7 +14,7 @@ interface IProps {
     handleEditProduct(id: string): void;
   }
 export const ProductForm = (props: IProps) => {
-  const {productValues, isloading, handleChange, handleChangeImage, handleCloseForm, handleCreateProduct, handleEditProduct,} = props;
+  const {inputValues, isloading, handleChange, handleChangeImage, handleCloseForm, handleCreateProduct, handleEditProduct,} = props;
 
   return (
     <>
@@ -28,7 +28,7 @@ export const ProductForm = (props: IProps) => {
           type="text"
           placeholder="Enter name"
           name="name"
-          value={productValues.name}
+          value={inputValues.name}
           onChange={handleChange}
           autoComplete="off"
           required
@@ -40,7 +40,7 @@ export const ProductForm = (props: IProps) => {
           type="number"
           placeholder="Enter price"
           name="price"
-          value={productValues.price}
+          value={inputValues.price}
           onChange={handleChange}
           autoComplete="off"
           required
@@ -49,13 +49,13 @@ export const ProductForm = (props: IProps) => {
 
       <Form.Group className="my-2">
         <Form.Label>Image</Form.Label>
-        {productValues.imageCover ? (
+        {inputValues.imageCover ? (
           <>
             <Form.Control
               className="mb-3"
               type="text"
               name="imageCover"
-              value={productValues.imageCover}
+              value={inputValues.imageCover}
               onChange={handleChange}
               autoComplete="off"
               required
@@ -85,7 +85,7 @@ export const ProductForm = (props: IProps) => {
           type="text"
           placeholder="Enter category"
           name="category"
-          value={productValues.category}
+          value={inputValues.category}
           onChange={handleChange}
           autoComplete="off"
           required
@@ -98,7 +98,7 @@ export const ProductForm = (props: IProps) => {
           type="text"
           placeholder="Enter brand"
           name="brand"
-          value={productValues.brand}
+          value={inputValues.brand}
           onChange={handleChange}
           autoComplete="off"
           required
@@ -112,7 +112,7 @@ export const ProductForm = (props: IProps) => {
           type="text"
           placeholder="Enter description"
           name="description"
-          value={productValues.description}
+          value={inputValues.description}
           onChange={handleChange}
           autoComplete="off"
           required
@@ -125,7 +125,7 @@ export const ProductForm = (props: IProps) => {
           type="number"
           placeholder="Enter count in stock"
           name="countInStock"
-          value={productValues.countInStock}
+          value={inputValues.countInStock}
           onChange={handleChange}
           autoComplete="off"
           required
@@ -137,11 +137,11 @@ export const ProductForm = (props: IProps) => {
         Close
       </Button>
 
-      {productValues._id ? (
+      {inputValues._id ? (
         <Button
           className="custom-btn"
           variant="primary"
-          onClick={() => handleEditProduct(productValues._id)}
+          onClick={() => handleEditProduct(inputValues._id)}
         >
           {isloading ? <Loader width={30} height={30} /> : "Save changes"}
         </Button>
