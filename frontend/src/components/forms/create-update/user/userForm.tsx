@@ -5,7 +5,7 @@ import { Loader } from "../../../loader/loader";
 import "./userForm.css"
 
 interface IProps {
-    userValues: IUsers;
+    inputValues: IUsers;
     isloading: boolean;
     handleChange(event: ChangeEvent): void;
     handleChangeImage(event: ChangeEvent): void;
@@ -13,12 +13,12 @@ interface IProps {
     handleEditUser(id: string): void;
   }
 export const UserForm = (props:IProps) => {
-  const {userValues, isloading, handleChange, handleChangeImage, handleCloseForm, handleEditUser} = props;
+  const {inputValues, isloading, handleChange, handleChangeImage, handleCloseForm, handleEditUser} = props;
 
   return (
     <>
     <Modal.Header closeButton>
-      <Modal.Title>Users</Modal.Title>
+      <Modal.Title>User</Modal.Title>
     </Modal.Header>
     <Modal.Body>
       <Form.Group>
@@ -27,7 +27,7 @@ export const UserForm = (props:IProps) => {
           type="text"
           placeholder="Enter name"
           name="name"
-          value={userValues.name}
+          value={inputValues.name}
           onChange={handleChange}
           autoComplete="off"
           required
@@ -39,7 +39,7 @@ export const UserForm = (props:IProps) => {
           type="email"
           placeholder="Enter email"
           name="email"
-          value={userValues.email}
+          value={inputValues.email}
           onChange={handleChange}
           autoComplete="off"
           required
@@ -48,13 +48,13 @@ export const UserForm = (props:IProps) => {
 
       <Form.Group className="my-2">
         <Form.Label>Image</Form.Label>
-        {userValues.photo ? (
+        {inputValues.photo ? (
           <>
             <Form.Control
               className="mb-3"
               type="text"
               name="photo"
-              value={userValues.photo}
+              value={inputValues.photo}
               onChange={handleChange}
               autoComplete="off"
               required
@@ -82,7 +82,7 @@ export const UserForm = (props:IProps) => {
           type="text"
           placeholder="Enter role"
           name="role"
-          value={userValues.role}
+          value={inputValues.role}
           onChange={handleChange}
           autoComplete="off"
           required
@@ -98,7 +98,7 @@ export const UserForm = (props:IProps) => {
         className="custom-btn"
         variant="primary"
         disabled={isloading}
-        onClick={() => handleEditUser(userValues._id)}
+        onClick={() => handleEditUser(inputValues._id)}
       >
         {isloading ? <Loader width={25} height={25} /> : "Save changes"}
       </Button>
