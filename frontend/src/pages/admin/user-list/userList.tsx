@@ -1,38 +1,21 @@
-import {
-  Button,
-  Col,
-  OverlayTrigger,
-  Row,
-  Table,
-  Tooltip,
-} from "react-bootstrap";
-import { FaCheck, FaEdit, FaTimes, FaTrash } from "react-icons/fa";
-import { ModalContainer } from "../../../components/container/modalContainer";
-import {
-  useDeleteUserMutation,
-  useGetUsersQuery,
-  useUpdateUserMutation,
-  useUploadUserPhotoMutation,
-} from "../../../redux/slices/userApiSlice";
+import { Col,Row,} from "react-bootstrap";
+import {useDeleteUserMutation,useGetUsersQuery,useUpdateUserMutation,useUploadUserPhotoMutation} from "../../../redux/slices/userApiSlice";
 import { MakeErrorMessage } from "../../../utils/makeErrorMessage";
 import { Loader } from "../../../components/loader/loader";
 import { IUsers } from "../../../interfaces/IUsers";
 import { ChangeEvent, useState } from "react";
 import { toast } from "react-toastify";
-import "./userList.css";
 import { Meta } from "../../../components/meta/meta";
+import { UserModal } from "../../../components/modals/user/userModal";
+import { Message } from "../../../components/message/message";
+import { UserTable } from "../../../components/tables/user/userTable";
+import "./userList.css";
 
 export const UserList = () => {
-  const {
-    data: users,
-    isSuccess,
-    isLoading,
-    refetch,
-    error,
-  } = useGetUsersQuery();
+  const {data: users, isSuccess, isLoading, refetch, error} = useGetUsersQuery();
   const [updateUser, { isLoading: updateLoading }] = useUpdateUserMutation();
+  const [deleteUser, {isLoading: loadingDelete}] = useDeleteUserMutation();
   const [uploadUserImage] = useUploadUserPhotoMutation();
-  const [deleteUser] = useDeleteUserMutation();
   const { errMessage } = MakeErrorMessage({ error });
 
   const defaultValues = {
@@ -104,9 +87,9 @@ export const UserList = () => {
           <h1>Users</h1>
         </Col>
         <Col className="text-end">
-          <ModalContainer
+          <UserModal
             show={show}
-            userValues={inputValues}
+            inputValues={inputValues}
             isloading={updateLoading}
             handleCloseForm={handleCloseForm}
             handleChange={handleChange}
@@ -115,63 +98,10 @@ export const UserList = () => {
           />
         </Col>
       </Row>
-      {isLoading && <Loader width={100} height={100} />}
-
-      {error && errMessage}
+      {isLoading || loadingDelete && <Loader width={100} height={100} />}
+      {error && <Message variant="danger">{errMessage}</Message>}
       {isSuccess && (
-        <Table striped hover responsive className="table-sm">
-          <thead>
-            <tr>
-              <th />
-              <th>NAME</th>
-              <th>EMAIL</th>
-              <th>ADMIN</th>
-              <th />
-            </tr>
-          </thead>
-          <tbody>
-            {users.data.map((user) => (
-              <tr key={user._id}>
-                <td>
-                  <img src={`/images/users/${user.photo}`} alt={user.name} />
-                </td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>
-                  {user.role.startsWith("admin") ? (
-                    <FaCheck style={{ color: "green" }} />
-                  ) : (
-                    <FaTimes color="red" />
-                  )}
-                </td>
-                <td>
-                  <OverlayTrigger
-                    overlay={<Tooltip id="tooltip-top">Edit</Tooltip>}
-                  >
-                    <Button
-                      variant="light"
-                      className="btn-sm mx-2"
-                      onClick={() => handleOpenForm(user)}
-                    >
-                      <FaEdit />
-                    </Button>
-                  </OverlayTrigger>
-                  <OverlayTrigger
-                    overlay={<Tooltip id="tooltip-top">Delete</Tooltip>}
-                  >
-                    <Button
-                      variant="light"
-                      className="btn-sm mx-2"
-                      onClick={() => deleteItemHandler(user._id)}
-                    >
-                      <FaTrash id="trash" />
-                    </Button>
-                  </OverlayTrigger>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+       <UserTable users={users} handleOpenForm={handleOpenForm } deleteItemHandler={deleteItemHandler }/>
       )}
     </>
   );
