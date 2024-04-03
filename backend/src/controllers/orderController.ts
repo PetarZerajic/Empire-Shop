@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { Order } from "../models/orderModel";
 import { AppError } from "../utils/appError";
 import { Product } from "../models/productModel";
+import { IOrderItems } from "../interfaces/IOrderItems";
 
 export const getAllOrders = async (
   req: Request,
@@ -75,8 +76,7 @@ export const addOrderItems = async (
   }
 
   const order = await Order.create({
-    orderItems: orderItems.map((item: any) => ({
-      _id: item._id,
+    orderItems: orderItems.map((item: IOrderItems) => ({
       ...item,
     })),
     user: req.user.id,
