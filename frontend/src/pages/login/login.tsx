@@ -9,7 +9,9 @@ import { RootState } from "../../redux/store/store";
 import { toast } from "react-toastify";
 import { setUserInfo } from "../../redux/slices/authSlice";
 import { Loader } from "../../components/loader/loader";
+import { validationMessages } from "../../utils/validationMessage";
 import "./login.css";
+
 export const Login = () => {
   const [inputValues, setInputValues] = useState({ email: "", password: "" });
 
@@ -25,14 +27,13 @@ export const Login = () => {
       navigate(redirect);
     }
   }, [userInfo, redirect, navigate]);
-
+  
   const [login, { isLoading }] = useLoginMutation();
 
   const onSubmitHandler = async (event: FormEvent<HTMLFormElement>) => {
     try {
       event.preventDefault();
-      const { email, password } = inputValues;
-      const response = await login({ email, password }).unwrap();
+      const response = await login({...inputValues}).unwrap();
       dispatch(setUserInfo({ ...response }));
       navigate(redirect);
 
@@ -41,11 +42,19 @@ export const Login = () => {
       toast.error(err.data.message || err.error, { autoClose: 3000 });
     }
   };
-
+  
   const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setInputValues((prevState) => ({ ...prevState, [name]: value }));
+
+    setInputValues((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+
+    const errorMessage = value.trim() === '' ? validationMessages[name] : '';
+    event.target.setCustomValidity(errorMessage);
   };
+
   return (
     <FormContainer>
       <h1>Log In</h1>
@@ -55,7 +64,7 @@ export const Login = () => {
           <Form.Control
             type="email"
             placeholder="example@gmail.com"
-            autoComplete="email-adress"
+            autoComplete="on"
             name="email"
             value={inputValues.email}
             onChange={onChangeHandler}
@@ -82,11 +91,7 @@ export const Login = () => {
         <Col>
           Not have an account ? {""}
           <Link
-            to={
-              redirect.startsWith("/shipping")
-                ? `${Routes.Register}?redirect=${redirect}`
-                : Routes.Register
-            }
+            to={redirect.startsWith(Routes.Shipping) ? `${Routes.Register}?redirect=${redirect}` : Routes.Register}
           >
             Register here
           </Link>
