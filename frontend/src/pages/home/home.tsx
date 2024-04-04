@@ -1,6 +1,6 @@
 import { Row, Col } from "react-bootstrap";
 import { useGetProductsQuery } from "../../redux/slices/productsApiSlice";
-import { ProductCard } from "../../components/card/productCard";
+import { ProductCard } from "../../components/card/product/productCard";
 import { Loader } from "../../components/loader/loader";
 import { Message } from "../../components/message/message";
 import { MakeErrorMessage } from "../../utils/makeErrorMessage";
@@ -12,24 +12,15 @@ import { Meta } from "../../components/meta/meta";
 
 export const Home = () => {
   const { keyword, pageNumber } = useParams();
-  const {
-    data: products,
-    isLoading,
-    isSuccess,
-    error,
-  } = useGetProductsQuery({ keyword, pageNumber });
+  const { data: products, isLoading, isSuccess, error} = useGetProductsQuery({ keyword, pageNumber });
   const { errMessage } = MakeErrorMessage({ error });
 
   return (
     <>
     <Meta title="Welcome to Empire-Shop"/>
-      {keyword ? (
-        <Link to={Routes.Home} className="btn btn-light mb-4">
-          Go Back
-        </Link>
-      ) : (
-        <CarouselProduct />
-      )}
+      {keyword ? ( <Link to={Routes.Home} className="btn btn-light mb-4"> Go Back </Link>
+      ) : ( <CarouselProduct /> )}
+      
       {isLoading && <Loader width={100} height={100} />}
       {error && <Message variant="danger">{errMessage}</Message>}
       {isSuccess && (
