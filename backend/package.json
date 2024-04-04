@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Empire Shop is e-commerce aplication built with the MERN stack ",
   "scripts": {
-    "build":"tsc",
-    "dev":"nodemon src/server.ts",
+    "build": "tsc",
+    "dev": "nodemon src/server.ts",
     "start": "node ./dist/src/server.js",
     "data:import": "npx ts-node src/data/import-data.ts --import",
     "data:delete": "npx ts-node src/data/import-data.ts --delete"
@@ -29,6 +29,7 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
