@@ -8,12 +8,13 @@ import reviewRoutes from "./routes/reviewRoute";
 import { errorController } from "./controllers/errorController";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
+import cors from "cors"
 import "dotenv/config.js";
 
 connectToDb();
 
 const app = express();
-
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
