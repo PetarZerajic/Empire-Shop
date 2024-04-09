@@ -13,6 +13,7 @@ import path from "path";
 import "dotenv/config.js";
 
 connectToDb();
+const port = process.env.PORT || 5000;
 
 const app = express();
 app.use(cors())
@@ -20,17 +21,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-const port = process.env.PORT || 5000;
-
-app.use(express.static(path.join(__dirname, '../../../frontend/dist')));
-
-if (process.env.NODE_ENV === "production") {
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../../frontend/dist'));
-  });
-} else{
-  app.use(morgan("dev"))
-}
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
@@ -43,6 +33,16 @@ app.get("/api/config/paypal", (req, res) =>
     clientId: process.env.PAYPAL_CLIENT_ID,
   })
 );
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, '../../../frontend/dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../../frontend/dist/index.html'));
+  });
+} else{
+  app.use(morgan("dev"))
+}
+
 app.use(errorController);
 app.listen(port, () => {
   console.log("Server running on port:" + port);
