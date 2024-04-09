@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc",
     "dev": "nodemon src/server.ts",
-    "start": "node ./dist/src/server.js",
+    "start": "node dist/src/server.js",
     "data:import": "npx ts-node src/data/import-data.ts --import",
     "data:delete": "npx ts-node src/data/import-data.ts --delete"
   },
