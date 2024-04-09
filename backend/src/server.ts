@@ -22,14 +22,16 @@ app.use(cookieParser());
 
 const port = process.env.PORT || 5000;
 
+app.use(express.static(path.join(__dirname, '../../../frontend/dist')));
+
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname ,'../../../frontend/dist')));
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../../../frontend/dist'));
+    res.sendFile(path.join(__dirname, '../../../frontend/dist'));
   });
-} else {
+} else{
   app.use(morgan("dev"))
 }
+
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
