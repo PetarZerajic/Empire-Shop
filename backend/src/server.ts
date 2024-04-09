@@ -9,6 +9,7 @@ import { errorController } from "./controllers/errorController";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import cors from "cors"
+import path from "path";
 import "dotenv/config.js";
 
 connectToDb();
@@ -21,10 +22,14 @@ app.use(cookieParser());
 
 const port = process.env.PORT || 5000;
 
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname ,'../../../frontend/dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../../../frontend/dist'));
+  });
+} else {
+  app.use(morgan("dev"))
 }
-
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/orders", orderRoutes);
