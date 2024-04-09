@@ -11,9 +11,9 @@ import {
 } from "../../redux/slices/userApiSlice";
 import { useGetMyOrdersQuery } from "../../redux/slices/orderApiSlice";
 import { MakeErrorMessage } from "../../utils/makeErrorMessage";
-import { ProfileForm } from "./profileForm";
-import { ProfileMyOrders } from "./profileMyOrders";
 import { IUserProfile } from "../../interfaces/IUsers";
+import { UserProfileForm } from "../../components/forms/profile/userProfileForm";
+import { MyOrderTable } from "../../components/tables/order/myOrderTable";
 import "./profile.css";
 
 export const Profile = () => {
@@ -100,7 +100,7 @@ export const Profile = () => {
   return (
     <Row>
       <Col md={3}>
-        <ProfileForm
+        <UserProfileForm
           submitHandler={submitHandler}
           imgRef={imgRef}
           inputValues={inputValues}
@@ -111,11 +111,7 @@ export const Profile = () => {
         />
       </Col>
       <Col md={9}>
-        <ProfileMyOrders
-          error={error}
-          errMessage={errMessage}
-          orders={orders}
-        />
+        <MyOrderTable error={error} errMessage={errMessage} orders={orders} />
       </Col>
     </Row>
   );
