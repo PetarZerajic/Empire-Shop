@@ -4,10 +4,8 @@ p,
   color: gray;
 }
 
-.col a {
-  /* text-decoration: none; */
-  /* color: gray; */
-}
-.col-md-4 {
-  /* color: gray; */
+#placeorder-btn {
+  min-width: 120px;
+  min-height: 40px;
+  max-height: 40px;
 }
