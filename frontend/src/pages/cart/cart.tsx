@@ -94,26 +94,17 @@ export const Cart = () => {
             </ListGroup>
           )}
         </Col>
-        <Col md={4} style={{ marginTop: "100px" }}>
+        <Col md={4} className="mt-5">
           <Card>
             <ListGroup variant="flush">
               <ListGroup.Item>
                 <h2>
                   Subtotal (
-                  {cartItems.reduce(
-                    (acc, currentItem) => acc + currentItem.quantity!,
-                    0
-                  )}
-                  ) items
+                  {cartItems.reduce((acc, currentItem) => acc + currentItem.quantity!, 0)}) 
+                  items
                 </h2>
                 $
-                {cartItems
-                  .reduce(
-                    (acc, curentItem) =>
-                      acc + curentItem.quantity! * curentItem.price,
-                    0
-                  )
-                  .toFixed(2)}
+                {cartItems.reduce((acc, curentItem) => acc + curentItem.quantity! * curentItem.price,0).toFixed(2)}
               </ListGroup.Item>
               <ListGroup.Item className="mt-2">
                 <Button

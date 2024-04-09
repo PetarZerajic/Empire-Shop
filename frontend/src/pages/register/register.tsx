@@ -117,7 +117,7 @@ export const Register = () => {
             required
           />
         </Form.Group>
-        <Button type="submit" className="mt-2" disabled={isLoading}>
+        <Button id="custom-btn" type="submit" className="mt-2" disabled={isLoading}>
           {isLoading ? <Loader width={30} height={30} /> : "Sign Up"}
         </Button>
       </Form>
