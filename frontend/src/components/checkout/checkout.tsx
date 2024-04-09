@@ -13,7 +13,7 @@ export const Checkout = ({ step1, step2, step3, step4 }: ICheckout) => {
     <Nav className="justify-content-center mb-4">
       <Nav.Item>
         {step1 ? (
-          <LinkContainer to={Routes.LOGIN}>
+          <LinkContainer to={Routes.Login}>
             <Nav.Link>Log in</Nav.Link>
           </LinkContainer>
         ) : (
