@@ -14,11 +14,12 @@ import { Meta } from "../../components/meta/meta";
 import { Review } from "../../components/review/review";
 import { Rating } from "../../components/rating/rating";
 import { ProductSummaryCard } from "../../components/card/product/productSummaryCard";
+import { Loader } from "../../components/loader/loader";
 import "./product.css";
 
 export const Product = () => {
   const { id } = useParams();
-  const {data: product, isSuccess, refetch, error} = useGetOneProductQuery(id);
+  const {data: product, isSuccess, isLoading:productLoading, refetch, error} = useGetOneProductQuery(id);
   const [createReview, { isLoading }] = useCreateProductReviewMutation();
   const [inputValues, setInputValues] = useState({
     quantity: 1,
@@ -72,6 +73,7 @@ export const Product = () => {
   return (
     <>
       {error && <Message variant="danger">{errMessage}</Message>}
+      {productLoading && <Loader width={100} height={100}/>}
       {isSuccess && (
         <div>
           <Meta title={product.data.name} />
