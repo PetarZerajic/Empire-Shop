@@ -28,18 +28,12 @@ import { clearCartItems } from "../../redux/slices/cartSlice";
 
 export const Order = () => {
   const { id } = useParams();
-  const { data, isLoading, isSuccess, error, refetch } =
-    useGetOneOrderQuery(id);
+  const { data, isLoading, isSuccess, error, refetch } = useGetOneOrderQuery(id);
   const [payOrder, { isLoading: loadingPay }] = usePayOrderMutation();
   const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-  const {
-    data: paypal,
-    isLoading: loadingPayPal,
-    error: errorPayPal,
-  } = useGetPayPalClientIdQuery();
-  const [deliverOrder, { isLoading: loadingDeliver }] =
-    useDeliverOrderMutation();
+  const {data: paypal, isLoading: loadingPayPal, error: errorPayPal} = useGetPayPalClientIdQuery();
+  const [deliverOrder, { isLoading: loadingDeliver }] = useDeliverOrderMutation();
   const orderDetails = data?.data?.order;
 
   useEffect(() => {
@@ -70,8 +64,8 @@ export const Order = () => {
 
   const { errMessage } = MakeErrorMessage({ error });
   const dispatch = useDispatch();
-  const onApprove = (
-    data: OnApproveData,
+  const onApprove = async(
+    _data: OnApproveData,
     actions: OnApproveActions
   ): Promise<void> => {
     return actions.order!.capture().then(async (details) => {
@@ -90,7 +84,7 @@ export const Order = () => {
   const onError = (err: unknown) => {
     if (err instanceof Error) toast.error(err.message);
   };
-  const createOrder = (data: CreateOrderData, actions: CreateOrderActions) => {
+  const createOrder =async (_data: CreateOrderData, actions: CreateOrderActions) => {
     return actions.order
       .create({
         purchase_units: [
