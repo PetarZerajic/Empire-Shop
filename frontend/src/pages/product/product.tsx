@@ -1,11 +1,8 @@
-import { Row, Col, Image } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Row, Col, Image, ListGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Routes } from "../../router/routes";
-import {
-  useCreateProductReviewMutation,
-  useGetOneProductQuery,
-} from "../../redux/slices/productsApiSlice";
+import { useCreateProductReviewMutation, useGetOneProductQuery} from "../../redux/slices/productsApiSlice";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { addTocart } from "../../redux/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,20 +11,15 @@ import { MakeErrorMessage } from "../../utils/makeErrorMessage";
 import { RootState } from "../../redux/store/store";
 import { toast } from "react-toastify";
 import { Meta } from "../../components/meta/meta";
-import { ProductSummaryCenter, ProductSummaryRight } from "./productSummary";
-import { ProductReview } from "./productReview";
+import { Review } from "../../components/review/review";
+import { Rating } from "../../components/rating/rating";
+import { ProductSummaryCard } from "../../components/card/product/productSummaryCard";
 import "./product.css";
 
 export const Product = () => {
   const { id } = useParams();
-  const {
-    data: product,
-    isSuccess,
-    refetch,
-    error,
-  } = useGetOneProductQuery(id);
+  const {data: product, isSuccess, refetch, error} = useGetOneProductQuery(id);
   const [createReview, { isLoading }] = useCreateProductReviewMutation();
-
   const [inputValues, setInputValues] = useState({
     quantity: 1,
     rating: 0,
@@ -36,16 +28,13 @@ export const Product = () => {
   const { userInfo } = useSelector((state: RootState) => state.reducer.auth);
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const addToCartHandler = () => {
     const updatedProduct = {
       ...product?.data,
       quantity: inputValues.quantity,
     };
-
     dispatch(addTocart(updatedProduct));
-    navigate(Routes.Cart);
   };
 
   const handleChangeRating = (value: number) => {
@@ -55,8 +44,8 @@ export const Product = () => {
     }));
   };
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { value,name,type } = event.target;
-    const valueType = type === "select-one" ? +value : value
+    const { value, name, type } = event.target;
+    const valueType = type === "select-one" ? +value : value;
     setInputValues((prevState) => ({
       ...prevState,
       [name]: valueType,
@@ -65,7 +54,7 @@ export const Product = () => {
   const handleOnSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      await createReview({ id, data: {...inputValues,}}).unwrap();
+      await createReview({ id, data: { ...inputValues } }).unwrap();
       refetch();
       toast.success("Review submitted");
       setInputValues({ ...inputValues, rating: 0, comment: "" });
@@ -98,10 +87,26 @@ export const Product = () => {
               />
             </Col>
             <Col md={4}>
-              <ProductSummaryCenter product={product} />
+              <ListGroup variant="flush">
+                <ListGroup.Item>
+                  <h3>{product.data.name}</h3>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Rating
+                    value={product.data.rating!}
+                    text={`${product.data.numReviews} reviews`}
+                  />
+                </ListGroup.Item>
+                <ListGroup.Item style={{ fontWeight: "bold" }}>
+                  Price: ${product.data.price}
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  Description: {product.data.description}
+                </ListGroup.Item>
+              </ListGroup>
             </Col>
             <Col md={3}>
-              <ProductSummaryRight
+              <ProductSummaryCard
                 product={product}
                 inputValues={inputValues}
                 handleChange={handleChange}
@@ -111,7 +116,7 @@ export const Product = () => {
           </Row>
           <Row className="review">
             <Col md={6} className="mt-4">
-              <ProductReview
+              <Review
                 isReviewAdded={isReviewAdded}
                 userInfo={userInfo}
                 inputValues={inputValues}
