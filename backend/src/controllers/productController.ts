@@ -12,7 +12,7 @@ export const getAllproducts = async (
     const perPage = 8;
     const start = (page - 1) * perPage;
     const keyword = req.query.keyword ? { name: { $regex: req.query.keyword, $options: "i" }}: {};
-    const count = await Product.countDocuments({ ...keyword });
+    const count = await Product.countDocuments({ ...keyword }).maxTimeMS(1000);
     const products = await Product.find({ ...keyword })
       .skip(start)
       .limit(perPage);
