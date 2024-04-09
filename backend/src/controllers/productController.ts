@@ -17,6 +17,10 @@ export const getAllproducts = async (
       .skip(start)
       .limit(perPage);
 
+      if(!products){
+        return next(new AppError(404, "There is no document"));
+      }
+      
     res.status(200).json({
       status: "success",
       results: products.length,
