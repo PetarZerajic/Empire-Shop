@@ -1,6 +1,7 @@
 # Empire-Shop
 
-Empire-Shop is E-Commerce platform built with the MERN stack & Redux.
+Empire-Shop is E-Commerce platform built with the MERN stack (MongoDB,Express and NodeJS) & Redux.
+https://empire-shop.onrender.com
 
 https://github.com/PetarZerajic/Empire-Shop/assets/116806174/c0506465-c780-4654-ac73-f9b6ebd6b04c
 
