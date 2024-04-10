@@ -1,5 +1,6 @@
 import { Pagination } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { ScrollToTop } from "../../utils/scrollToTop";
 
 interface IProps {
   pages: number;
@@ -18,6 +19,7 @@ export const Paginate = (props: IProps) => {
   return (
     pages > 1 && (
       <Pagination className="d-flex justify-content-center align-items-center">
+        <ScrollToTop/>
         {pageNumbers.map((number) => (
         <LinkContainer
             key={number}
