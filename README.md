@@ -8,16 +8,31 @@ https://github.com/PetarZerajic/Empire-Shop/assets/116806174/c0506465-c780-4654-
 
 ## Features
 
-- Full featured shopping cart
-- Product reviews and ratings
-- Top products carousel
-- Product pagination
-- Product search feature
-- User profile with orders
-- Admin product management
-- Admin user management
-- Admin Order details page
-- Mark orders as delivered option
-- Checkout process (shipping, payment method, etc)
-- PayPal / credit card integration
-- Database seeder (products & users)
+- [x] Full featured shopping cart
+- [x] Product reviews and ratings
+- [x] Top products carousel
+- [x] Product pagination
+- [x] Product search feature
+- [x] User profile with orders
+- [x] Admin product management
+- [x] Admin user management
+- [x] Admin Order details page
+- [x] Mark orders as delivered option
+- [x] Checkout process (shipping, payment method, etc)
+- [x] PayPal / credit card integration
+- [x] Database seeder (products & users)
+
+## Technologies
+
+- React - TypeScript
+- React Bootstrap
+- React PayPal
+- Redux Toolkit
+- RTK Query
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
+- Bcrypt
+- Multer
