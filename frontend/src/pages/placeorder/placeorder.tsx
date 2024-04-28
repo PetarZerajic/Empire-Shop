@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {  Row, Col, ListGroup, Image } from "react-bootstrap";
+import { Row, Col, ListGroup, Image } from "react-bootstrap";
 import { CheckoutSteps } from "../../components/checkout-steps/checkoutSteps";
 import { RootState } from "../../redux/store/store";
 import { Routes } from "../../router/routes";
@@ -27,18 +27,18 @@ export const Placeorder = () => {
     try {
       const response = await createOrder({
         orderItems: cart.cartItems,
-        shippingAddress: cart.shippingAddress,
-        paymentMethod: cart.paymentMethod,
-        itemsPrice: cart.itemsPrice,
-        shippingPrice: cart.shippingPrice,
-        taxPrice: cart.taxPrice,
-        totalPrice: cart.totalPrice,
+        ...cart
       }).unwrap();
       dispatch(clearCartItems());
       navigate(`/order/${response.data.order._id}`);
     } catch (err) {
       console.log(err);
     }
+  };
+  const props = {
+    ...cart,
+    isLoading,
+    placeOrderHandler,
   };
   return (
     <>
@@ -94,8 +94,7 @@ export const Placeorder = () => {
           </ListGroup>
         </Col>
         <Col md={4}>
-          <PlaceorderCard itemsPrice={cart.itemsPrice} shippingPrice={cart.shippingPrice} totalPrice={cart.totalPrice} 
-          taxPrice={cart.taxPrice} isLoading={isLoading} placeOrderHandler={placeOrderHandler}/>
+          <PlaceorderCard {...props} />
         </Col>
       </Row>
     </>
