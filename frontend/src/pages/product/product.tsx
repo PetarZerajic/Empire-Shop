@@ -70,6 +70,24 @@ export const Product = () => {
   );
   const { errMessage } = MakeErrorMessage({ error });
 
+  const props = {
+    ProductSummaryCard: {
+      product,
+      inputValues,
+      handleChange,
+      addToCartHandler,
+    },
+    Review: {
+      isReviewAdded,
+      userInfo,
+      inputValues,
+      isLoading,
+      product: product,
+      handleOnSubmit,
+      handleChange,
+      handleChangeRating,
+    },
+  };
   return (
     <>
       {error && <Message variant="danger">{errMessage}</Message>}
@@ -108,26 +126,12 @@ export const Product = () => {
               </ListGroup>
             </Col>
             <Col md={3}>
-              <ProductSummaryCard
-                product={product}
-                inputValues={inputValues}
-                handleChange={handleChange}
-                addToCartHandler={addToCartHandler}
-              />
+              <ProductSummaryCard {...props.ProductSummaryCard}/>
             </Col>
           </Row>
           <Row className="review">
             <Col md={6} className="mt-4">
-              <Review
-                isReviewAdded={isReviewAdded}
-                userInfo={userInfo}
-                inputValues={inputValues}
-                isLoading={isLoading}
-                product={product}
-                handleOnSubmit={handleOnSubmit}
-                handleChangeRating={handleChangeRating}
-                handleChange={handleChange}
-              />
+              <Review {...props.Review}/>
             </Col>
           </Row>
         </div>
