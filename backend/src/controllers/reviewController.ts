@@ -97,20 +97,24 @@ export const deleteReview = async (
   try {
     const review = await Review.findByIdAndDelete(req.params.id);
     if (!review) {
-      return next(new AppError(404, "No document found with that ID"));
+      return next(new AppError(404, "No review found with that id"));
     }
     const product = await Product.findById(review.product);
 
-    let numReviews = product?.reviews.length! - 1;
+    if (!product) {
+      return next(new AppError(404, "No product find with that id"));
+    }
+
+    let numReviews = product.reviews.length - 1;
     let newRating = 0;
     if (numReviews > 0) {
-      const sumRatings = product?.reviews.reduce((acc, curr) => {
+      const sumRatings = product.reviews.reduce((acc, curr) => {
         if (curr._id?.toString() !== review._id?.toString()) {
           return acc + curr.rating;
         }
         return acc;
       }, 0);
-      newRating = sumRatings! / numReviews;
+      newRating = sumRatings / numReviews;
     }
 
     await Product.updateOne(
