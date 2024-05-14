@@ -19,8 +19,8 @@ import "./product.css";
 
 export const Product = () => {
   const { id } = useParams();
-  const {data: product, isSuccess, isLoading:productLoading, refetch, error} = useGetOneProductQuery(id);
-  const [createReview, { isLoading }] = useCreateProductReviewMutation();
+  const {data: product, isSuccess, isLoading, refetch, error} = useGetOneProductQuery(id);
+  const [createReview, { isLoading:reviewLoading }] = useCreateProductReviewMutation();
   const [inputValues, setInputValues] = useState({
     quantity: 1,
     rating: 0,
@@ -65,7 +65,7 @@ export const Product = () => {
       toast.error(err.data.message || err.data.error);
     }
   };
-  const isReviewAdded = product?.data.reviews?.find(
+  const isReviewExist = product?.data.reviews?.find(
     (i) => i.user === userInfo?.data.user._id
   );
   const { errMessage } = MakeErrorMessage({ error });
@@ -78,11 +78,11 @@ export const Product = () => {
       addToCartHandler,
     },
     Review: {
-      isReviewAdded,
+      isReviewExist,
       userInfo,
       inputValues,
-      isLoading,
-      product: product,
+      reviewLoading,
+      product,
       handleOnSubmit,
       handleChange,
       handleChangeRating,
@@ -91,9 +91,9 @@ export const Product = () => {
   return (
     <>
       {error && <Message variant="danger">{errMessage}</Message>}
-      {productLoading && <Loader width={100} height={100}/>}
+      {isLoading && <Loader width={100} height={100}/>}
       {isSuccess && (
-        <div>
+        <>
           <Meta title={product.data.name} />
           <Link to={Routes.Home} className="btn btn-light my-3">
             Go back
@@ -131,10 +131,10 @@ export const Product = () => {
           </Row>
           <Row className="review">
             <Col md={6} className="mt-4">
-              <Review {...props.Review}/>
+              <Review  {...props.Review}/>
             </Col>
           </Row>
-        </div>
+        </>
       )}
     </>
   );
