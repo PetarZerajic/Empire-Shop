@@ -8,31 +8,30 @@ import { Routes } from "../../router/routes";
 import { ChangeEvent, FormEvent } from "react";
 
 interface IProps {
-  isReviewAdded: unknown;
+  isReviewExist: unknown;
   userInfo: IUserInfo | null;
   inputValues: { rating: number; comment: string };
-  isLoading: boolean;
-  product: { data: IProducts };
+  reviewLoading: boolean;
+  product: { data: IProducts } | undefined;
   handleOnSubmit(event: FormEvent): Promise<void>;
   handleChangeRating(value: number): void;
   handleChange(event: ChangeEvent<HTMLInputElement>): void;
 }
 
 export const Review = (props:IProps) => {
-    const { isReviewAdded,userInfo, handleOnSubmit,inputValues,handleChangeRating,
-        handleChange,isLoading,product} = props;
+    const reviewIsNotAdded = !props.isReviewExist;
        return (
          <>
-           <h2>{isReviewAdded ? "Reviews" : "Create Review"}</h2>
-           {userInfo ? (
+           <h2>{props.isReviewExist ? "Reviews" : "Create Review"}</h2>
+           {props.userInfo ? (
              <div className="mt-4">
-               {!isReviewAdded ? (
-                 <Form onSubmit={handleOnSubmit}>
+               {reviewIsNotAdded && (
+                 <Form onSubmit={props.handleOnSubmit}>
                    <Form.Group controlId="rating" className="my-2">
                      <Form.Label>Rating</Form.Label>
                      <Rating
-                       value={inputValues.rating}
-                       handleChangeRating={handleChangeRating}
+                       value={props.inputValues.rating}
+                       handleChangeRating={props.handleChangeRating}
                      />
                    </Form.Group>
                    <Form.Group className="my-2">
@@ -40,15 +39,15 @@ export const Review = (props:IProps) => {
                      <Form.Control
                        as="textarea"
                        name="comment"
-                       value={inputValues.comment}
-                       onChange={handleChange}
+                       value={props.inputValues.comment}
+                       onChange={props.handleChange}
                      />
                    </Form.Group>
-                   <Button disabled={isLoading} type="submit">
+                   <Button disabled={props.reviewLoading} type="submit">
                      Submit
                    </Button>
                  </Form>
-               ) : null}
+               )}
              </div>
            ) : (
              <Message>
@@ -56,14 +55,14 @@ export const Review = (props:IProps) => {
              </Message>
            )}
            <ListGroup.Item className="mt-5" variant="flush">
-             {product.data.reviews?.map((review) => (
+             {props.product?.data.reviews?.map((review) => (
                <ListGroup.Item key={review._id}>
                  <strong>{review.name}</strong>
                  <Rating value={review.rating} />
                  <p>{review.createdAt?.substring(0, 10)}</p>
                  <p>{review.comment}</p>
                </ListGroup.Item>
-             ))}
+             )).reverse()}
            </ListGroup.Item>
          </>
         )}
