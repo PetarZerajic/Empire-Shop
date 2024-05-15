@@ -28,28 +28,20 @@ export const Profile = () => {
     password: "",
     passwordConfirm: "",
   });
-
   const imgRef = useRef<HTMLImageElement>(null);
-  const [updateProfile, { isLoading: loadingUpdateProfile }] =
-    useProfileMutation();
+  const [updateProfile, { isLoading: loadingProfile }] = useProfileMutation();
 
-  const [updatePassword, { isLoading: loadingUpdatePassword }] =
+  const [updatePassword, { isLoading: loadingPassword }] =
     useUpdatePasswordMutation();
 
   const [uploadProductImage] = useUploadUserPhotoMutation();
   const { data: orders, error } = useGetMyOrdersQuery();
 
   const dispatch = useDispatch();
-
-  const submitHandler = async (event: FormEvent) => {
-    event.preventDefault();
-    const { name, email, photo, passwordCurrent, password, passwordConfirm } =
-      inputValues;
-    if (password !== passwordConfirm) {
-      return toast.error("Password do not match!");
-    }
+  const handleUpdatePassword = async (isPasswordValid: boolean) => {
     try {
-      if (passwordCurrent && password && passwordConfirm) {
+      if (isPasswordValid) {
+        const { password, passwordConfirm, passwordCurrent } = inputValues;
         const response = await updatePassword({
           password,
           passwordConfirm,
@@ -57,16 +49,41 @@ export const Profile = () => {
         }).unwrap();
         dispatch(setUserInfo(response));
         toast.success("Password updated successfully!");
-      } else {
-        const response = await updateProfile({
-          name,
-          email,
-          photo,
-        }).unwrap();
-
-        dispatch(setUserInfo(response));
-        toast.success("Profile updated successfully!");
       }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      toast.error(err.data.message);
+    }
+  };
+  const handleUpdateProfile = async () => {
+    try {
+      const { name, email, photo } = inputValues;
+      const response = await updateProfile({
+        name,
+        email,
+        photo,
+      }).unwrap();
+
+      dispatch(setUserInfo(response));
+      toast.success("Profile updated successfully!");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      toast.error(err.data.message);
+    }
+  };
+
+  const onSubmitHandler = async (event: FormEvent) => {
+    event.preventDefault();
+    try {
+      const { password, passwordConfirm } = inputValues;
+      const passwordDoNotMatch = password !== passwordConfirm;
+      if (passwordDoNotMatch) {
+        return toast.error("Password do not match!");
+      }
+
+      const isPasswordValid = passwordConfirm ? true : false;
+      if (isPasswordValid) handleUpdatePassword(isPasswordValid);
+      else handleUpdateProfile();
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -96,19 +113,19 @@ export const Profile = () => {
   };
 
   const { errMessage } = MakeErrorMessage({ error });
-
+  const props = {
+    inputValues,
+    imgRef,
+    loadingProfile,
+    loadingPassword,
+    handleChangeImage,
+    onChangeHandler,
+    onSubmitHandler,
+  };
   return (
     <Row>
       <Col md={3}>
-        <UserProfileForm
-          submitHandler={submitHandler}
-          imgRef={imgRef}
-          inputValues={inputValues}
-          loadingUpdateProfile={loadingUpdateProfile}
-          loadingUpdatePassword={loadingUpdatePassword}
-          handleChangeImage={handleChangeImage}
-          onChangeHandler={onChangeHandler}
-        />
+        <UserProfileForm {...props} />
       </Col>
       <Col md={9}>
         <MyOrderTable error={error} errMessage={errMessage} orders={orders} />
