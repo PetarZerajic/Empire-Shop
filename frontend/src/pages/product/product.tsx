@@ -2,7 +2,10 @@ import { Row, Col, Image, ListGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { Routes } from "../../router/routes";
-import { useCreateProductReviewMutation, useGetOneProductQuery} from "../../redux/slices/productsApiSlice";
+import {
+  useCreateProductReviewMutation,
+  useGetOneProductQuery,
+} from "../../redux/slices/productsApiSlice";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { addTocart } from "../../redux/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +18,7 @@ import { Review } from "../../components/review/review";
 import { Rating } from "../../components/rating/rating";
 import { ProductSummaryCard } from "../../components/card/product/productSummaryCard";
 import { Loader } from "../../components/loader/loader";
+import { IProducts } from "../../interfaces/IProducts";
 import "./product.css";
 
 export const Product = () => {
@@ -72,7 +76,7 @@ export const Product = () => {
 
   const props = {
     ProductSummaryCard: {
-      product,
+      product: product as { data: IProducts },
       inputValues,
       handleChange,
       addToCartHandler,
